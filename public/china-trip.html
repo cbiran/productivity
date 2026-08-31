@@ -187,6 +187,28 @@ body {
   transform: translateX(-4px);
   box-shadow: 0 4px 20px rgba(0,0,0,0.1);
 }
+.day-img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 14px;
+  display: block;
+  background: linear-gradient(135deg, #e0e0e0, #f5f5f5);
+}
+.day-img-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.day-img-row img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #e0e0e0, #f5f5f5);
+}
 .day-card::before {
   content: attr(data-day);
   position: absolute;
@@ -499,6 +521,7 @@ html { scroll-behavior: smooth; }
 
       <!-- Day 1 -->
       <div class="day-card region-shanghai" data-day="D1">
+        <img class="day-img" src="https://images.unsplash.com/photo-1633851548815-207719ed2ed0?w=800&h=400&fit=crop" alt="Shanghai Disneyland" onerror="this.style.display='none'">
         <div class="day-header">
           <div>
             <span class="day-city city-shanghai">שנחאי</span>
@@ -517,6 +540,7 @@ html { scroll-behavior: smooth; }
 
       <!-- Day 2 -->
       <div class="day-card region-shanghai" data-day="D2">
+        <img class="day-img" src="https://images.unsplash.com/photo-1590144662036-33bf0ebd2c7f?w=800&h=400&fit=crop" alt="Shanghai Disneyland" onerror="this.style.display='none'">
         <div class="day-header">
           <div>
             <span class="day-city city-shanghai">שנחאי</span>
@@ -554,6 +578,10 @@ html { scroll-behavior: smooth; }
 
       <!-- Day 4 -->
       <div class="day-card region-zhangjiajie" data-day="D4">
+        <div class="day-img-row">
+          <img src="https://images.unsplash.com/photo-1567266565245-c08dc046815f?w=500&h=300&fit=crop" alt="Zhangjiajie Avatar Mountains" onerror="this.style.display='none'">
+          <img src="https://images.unsplash.com/photo-1567266565446-d9c40ccf59a4?w=500&h=300&fit=crop" alt="Zhangjiajie Pillars" onerror="this.style.display='none'">
+        </div>
         <div class="day-header">
           <div>
             <span class="day-city city-zhangjiajie">ג'אנג'יאג'יה</span>
@@ -573,6 +601,7 @@ html { scroll-behavior: smooth; }
 
       <!-- Day 5 -->
       <div class="day-card region-zhangjiajie" data-day="D5">
+        <img class="day-img" src="https://images.unsplash.com/photo-1740521532582-3952c062af42?w=800&h=400&fit=crop" alt="Zhangjiajie Golden Whip Stream" onerror="this.style.display='none'">
         <div class="day-header">
           <div>
             <span class="day-city city-zhangjiajie">ג'אנג'יאג'יה</span>
@@ -592,6 +621,7 @@ html { scroll-behavior: smooth; }
 
       <!-- Day 6 -->
       <div class="day-card region-zhangjiajie" data-day="D6">
+        <img class="day-img" src="https://images.unsplash.com/photo-1771068355252-157c30af27d8?w=800&h=400&fit=crop" alt="Zhangjiajie Glass Bridge" onerror="this.style.display='none'">
         <div class="day-header">
           <div>
             <span class="day-city city-zhangjiajie">ג'אנג'יאג'יה</span>
@@ -611,6 +641,7 @@ html { scroll-behavior: smooth; }
 
       <!-- Day 7 -->
       <div class="day-card region-zhangjiajie" data-day="D7">
+        <img class="day-img" src="https://images.unsplash.com/photo-1771068355252-157c30af27d8?w=800&h=400&fit=crop&crop=top" alt="Tianmen Mountain" onerror="this.style.display='none'">
         <div class="day-header">
           <div>
             <span class="day-city city-zhangjiajie">ג'אנג'יאג'יה → פנגהואנג</span>
@@ -631,6 +662,7 @@ html { scroll-behavior: smooth; }
 
       <!-- Day 8 -->
       <div class="day-card region-yunnan" data-day="D8">
+        <img class="day-img" src="https://images.unsplash.com/photo-1703739749735-322991b9768b?w=800&h=400&fit=crop" alt="Fenghuang Ancient Town" onerror="this.style.display='none'">
         <div class="day-header">
           <div>
             <span class="day-city city-fenghuang">פנגהואנג → קונמינג</span>
@@ -669,6 +701,7 @@ html { scroll-behavior: smooth; }
 
       <!-- Day 10 -->
       <div class="day-card region-yunnan" data-day="D10">
+        <img class="day-img" src="https://images.unsplash.com/photo-1711886943210-beca23793689?w=800&h=400&fit=crop" alt="Stone Forest Kunming" onerror="this.style.display='none'">
         <div class="day-header">
           <div>
             <span class="day-city city-kunming">קונמינג → דאלי</span>
@@ -689,6 +722,10 @@ html { scroll-behavior: smooth; }
 
       <!-- Day 11 -->
       <div class="day-card region-yunnan" data-day="D11">
+        <div class="day-img-row">
+          <img src="https://images.unsplash.com/photo-1784534923289-11208dea29b3?w=500&h=300&fit=crop" alt="Dali Three Pagodas" onerror="this.style.display='none'">
+          <img src="https://images.unsplash.com/photo-1715468932667-84581433613e?w=500&h=300&fit=crop" alt="Erhai Lake" onerror="this.style.display='none'">
+        </div>
         <div class="day-header">
           <div>
             <span class="day-city city-dali">דאלי</span>
@@ -708,6 +745,7 @@ html { scroll-behavior: smooth; }
 
       <!-- Day 12 -->
       <div class="day-card region-yunnan" data-day="D12">
+        <img class="day-img" src="https://images.unsplash.com/photo-1677922069750-944be2b9ad20?w=800&h=400&fit=crop" alt="Lijiang Old Town" onerror="this.style.display='none'">
         <div class="day-header">
           <div>
             <span class="day-city city-dali">דאלי → ליג'יאנג</span>
@@ -728,6 +766,10 @@ html { scroll-behavior: smooth; }
 
       <!-- Day 13 -->
       <div class="day-card region-yunnan" data-day="D13">
+        <div class="day-img-row">
+          <img src="https://images.unsplash.com/photo-1677922069769-0164b29e2c1a?w=500&h=300&fit=crop" alt="Jade Dragon Snow Mountain" onerror="this.style.display='none'">
+          <img src="https://images.unsplash.com/photo-1663609976804-f6a76032fae8?w=500&h=300&fit=crop" alt="Blue Moon Valley" onerror="this.style.display='none'">
+        </div>
         <div class="day-header">
           <div>
             <span class="day-city city-lijiang">ליג'יאנג</span>
@@ -747,6 +789,7 @@ html { scroll-behavior: smooth; }
 
       <!-- Day 14 -->
       <div class="day-card region-yunnan" data-day="D14">
+        <img class="day-img" src="https://images.unsplash.com/photo-1637872937209-e1a5ccdc90cc?w=800&h=400&fit=crop" alt="Black Dragon Pool Lijiang" onerror="this.style.display='none'">
         <div class="day-header">
           <div>
             <span class="day-city city-lijiang">ליג'יאנג → קונמינג</span>
@@ -1007,6 +1050,7 @@ const locations = [
     lat: 31.14, lng: 121.66,
     color: '#1d3557',
     days: 'ימים 1-3',
+    img: 'https://images.unsplash.com/photo-1633851548815-207719ed2ed0?w=320&h=160&fit=crop',
     desc: 'דיסנילנד שנחאי — הפארק הגדול והמרשים באסיה! שני ימים של קסם דיסני, אטרקציות מטורפות ומופעים.',
     highlights: '🏰 דיסנילנד • 🎢 אטרקציות • ✨ קסם'
   },
@@ -1015,6 +1059,7 @@ const locations = [
     lat: 29.33, lng: 110.48,
     color: '#2d6a4f',
     days: 'ימים 4-7',
+    img: 'https://images.unsplash.com/photo-1567266565245-c08dc046815f?w=320&h=160&fit=crop',
     desc: 'עולם האווטאר! הרי עמודים מרהיבים, מעלית באילונג (הגבוהה בעולם), גשר הזכוכית, הר טיאנמן ואגם באופנג.',
     highlights: '🏔️ אווטאר • 🌉 גשר זכוכית • 🚡 רכבל • 🐒 קופים'
   },
@@ -1023,6 +1068,7 @@ const locations = [
     lat: 27.95, lng: 109.60,
     color: '#9d174d',
     days: 'יום 7-8',
+    img: 'https://images.unsplash.com/photo-1703739749735-322991b9768b?w=320&h=160&fit=crop',
     desc: 'אחת העיירות העתיקות היפות בסין (1,300 שנה). בתי עץ תלויים מעל הנהר, תרבות המיאו, ונוף לילי קסום.',
     highlights: '🏯 עיר עתיקה • 🌙 נוף לילי • ⛵ שיט בנהר'
   },
@@ -1031,6 +1077,7 @@ const locations = [
     lat: 25.04, lng: 102.72,
     color: '#92400e',
     days: 'ימים 9-10, 14-15',
+    img: 'https://images.unsplash.com/photo-1711886943210-beca23793689?w=320&h=160&fit=crop',
     desc: '"עיר האביב הנצחי" — בירת יונאן. יער האבנים (UNESCO), פארק האגם הירוק, הגבעה המערבית ואגם דיאנצ\'י.',
     highlights: '🪨 יער אבנים UNESCO • 🌸 אביב נצחי • 🚡 רכבל'
   },
@@ -1039,6 +1086,7 @@ const locations = [
     lat: 25.61, lng: 100.27,
     color: '#5b21b6',
     days: 'ימים 11-12',
+    img: 'https://images.unsplash.com/photo-1784534923289-11208dea29b3?w=320&h=160&fit=crop',
     desc: 'שלוש הפגודות (UNESCO), אגם ארחאי, העיר העתיקה עם ארכיטקטורת באי, ו"סנטוריני של דאלי".',
     highlights: '🗼 פגודות UNESCO • 🏝️ סנטוריני • 🌊 אגם ארחאי'
   },
@@ -1047,6 +1095,7 @@ const locations = [
     lat: 26.87, lng: 100.23,
     color: '#e76f51',
     days: 'ימים 12-14',
+    img: 'https://images.unsplash.com/photo-1677922069769-0164b29e2c1a?w=320&h=160&fit=crop',
     desc: 'עיר עתיקה (UNESCO), הר הדרקון של השלג הירקרק (4,506 מ\'), עמק הירח הכחול, ובריכת הדרקון השחור.',
     highlights: '❄️ הר שלג • 🐉 דרקון שחור • 🏯 UNESCO • 🎭 מופע'
   }
@@ -1082,6 +1131,7 @@ locations.forEach(loc => {
   const marker = L.marker([loc.lat, loc.lng], { icon }).addTo(map);
   marker.bindPopup(`
     <div style="min-width: 240px; max-width: 300px;">
+      <img class="popup-img" src="${loc.img}" alt="${loc.name}" onerror="this.style.display='none'">
       <h3>${loc.name}</h3>
       <span class="popup-day">📅 ${loc.days}</span>
       <p class="popup-desc">${loc.desc}</p>
