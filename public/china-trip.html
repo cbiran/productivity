@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>המסע לסין — בר המצווה של שקד</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+:root {
+  --red: #c41e3a;
+  --gold: #d4a017;
+  --dark: #1a1a2e;
+  --light: #f8f6f0;
+  --green: #2d6a4f;
+  --blue: #1d3557;
+  --orange: #e76f51;
+  --card-bg: #ffffff;
+  --text: #2b2b2b;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+  background: var(--light);
+  color: var(--text);
+  line-height: 1.7;
+  direction: rtl;
+}
+.container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+/* Hero */
+.hero {
+  background: linear-gradient(135deg, var(--red) 0%, var(--dark) 50%, var(--red) 100%);
+  color: white;
+  padding: 60px 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '🏮';
+  font-size: 200px;
+  position: absolute;
+  top: -40px;
+  left: -30px;
+  opacity: 0.08;
+}
+.hero::after {
+  content: '🐉';
+  font-size: 180px;
+  position: absolute;
+  bottom: -40px;
+  right: -20px;
+  opacity: 0.08;
+}
+.hero h1 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  margin-bottom: 10px;
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+}
+.hero .subtitle {
+  font-size: clamp(1.1rem, 3vw, 1.5rem);
+  opacity: 0.9;
+  margin-bottom: 8px;
+}
+.hero .dates {
+  font-size: 1.1rem;
+  opacity: 0.8;
+  margin-bottom: 24px;
+}
+.hero .bar-mitzvah-badge {
+  display: inline-block;
+  background: var(--gold);
+  color: var(--dark);
+  padding: 8px 24px;
+  border-radius: 30px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 15px rgba(212,160,23,0.4);
+}
+.countdown {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+.countdown-item {
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 12px 20px;
+  min-width: 80px;
+  text-align: center;
+}
+.countdown-item .num {
+  font-size: 2rem;
+  font-weight: bold;
+  display: block;
+}
+.countdown-item .label {
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+
+/* Stats Bar */
+.stats-bar {
+  background: var(--dark);
+  color: white;
+  padding: 24px 20px;
+}
+.stats-grid {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  flex-wrap: wrap;
+  text-align: center;
+}
+.stat { min-width: 100px; }
+.stat .num { font-size: 1.8rem; font-weight: bold; color: var(--gold); }
+.stat .label { font-size: 0.85rem; opacity: 0.8; }
+
+/* Section Headers */
+.section { padding: 48px 20px; }
+.section-title {
+  font-size: 1.8rem;
+  text-align: center;
+  margin-bottom: 12px;
+  color: var(--dark);
+}
+.section-subtitle {
+  text-align: center;
+  color: var(--muted);
+  margin-bottom: 32px;
+  font-size: 1rem;
+}
+
+/* Map */
+.map-section { background: white; }
+#map {
+  height: 500px;
+  border-radius: 16px;
+  border: 2px solid var(--border);
+  margin: 0 auto;
+  max-width: 1060px;
+  z-index: 1;
+}
+.leaflet-popup-content { direction: rtl; text-align: right; }
+.leaflet-popup-content h3 { color: var(--red); margin-bottom: 4px; font-size: 1.1rem; }
+.leaflet-popup-content .popup-day { color: var(--gold); font-weight: bold; margin-bottom: 6px; display: block; }
+.leaflet-popup-content .popup-desc { font-size: 0.9rem; color: var(--text); line-height: 1.5; }
+.leaflet-popup-content .popup-img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+/* Itinerary */
+.itinerary-section { background: var(--light); }
+.timeline { position: relative; max-width: 900px; margin: 0 auto; }
+.timeline::before {
+  content: '';
+  position: absolute;
+  right: 30px;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(to bottom, var(--red), var(--gold), var(--green));
+}
+.day-card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 20px;
+  margin-right: 60px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  position: relative;
+  border-right: 4px solid var(--red);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.day-card:hover {
+  transform: translateX(-4px);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+.day-card::before {
+  content: attr(data-day);
+  position: absolute;
+  right: -52px;
+  top: 24px;
+  background: var(--red);
+  color: white;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+.day-card.region-shanghai { border-right-color: var(--blue); }
+.day-card.region-shanghai::before { background: var(--blue); }
+.day-card.region-zhangjiajie { border-right-color: var(--green); }
+.day-card.region-zhangjiajie::before { background: var(--green); }
+.day-card.region-yunnan { border-right-color: var(--orange); }
+.day-card.region-yunnan::before { background: var(--orange); }
+.day-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.day-title { font-size: 1.2rem; font-weight: bold; color: var(--dark); }
+.day-date { color: var(--muted); font-size: 0.9rem; }
+.day-city {
+  display: inline-block;
+  padding: 2px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.city-shanghai { background: #dbeafe; color: var(--blue); }
+.city-zhangjiajie { background: #d1fae5; color: var(--green); }
+.city-fenghuang { background: #fce7f3; color: #9d174d; }
+.city-kunming { background: #fef3c7; color: #92400e; }
+.city-dali { background: #ede9fe; color: #5b21b6; }
+.city-lijiang { background: #ffedd5; color: var(--orange); }
+.day-desc { color: var(--text); font-size: 0.95rem; margin-bottom: 12px; }
+.day-hotel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 0.85rem;
+  margin-bottom: 10px;
+}
+.badges {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 0.78rem;
+  font-weight: 500;
+}
+.badge-green { background: #d1fae5; color: #065f46; }
+.badge-yellow { background: #fef3c7; color: #92400e; }
+.badge-red { background: #fee2e2; color: #991b1b; }
+.badge-type {
+  background: #f3f4f6;
+  color: var(--muted);
+}
+
+/* Suitability */
+.suit-section { background: white; }
+.suit-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.suit-card {
+  background: var(--light);
+  border-radius: 16px;
+  padding: 24px;
+}
+.suit-card h3 { margin-bottom: 16px; font-size: 1.3rem; }
+.suit-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.9rem;
+}
+.suit-item:last-child { border-bottom: none; }
+.suit-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.dot-green { background: #10b981; }
+.dot-yellow { background: #f59e0b; }
+.dot-red { background: #ef4444; }
+
+/* Practical Info */
+.practical-section { background: var(--light); }
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  max-width: 1060px;
+  margin: 0 auto;
+}
+.info-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.info-card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.info-card ul { list-style: none; }
+.info-card li {
+  padding: 4px 0;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+.info-card li::before { content: '•'; color: var(--red); font-weight: bold; }
+
+/* Bar Mitzvah */
+.barmitzvah-section {
+  background: linear-gradient(135deg, #fef3c7, #fde68a, #fef3c7);
+  text-align: center;
+  padding: 60px 20px;
+}
+.barmitzvah-section h2 {
+  font-size: 2rem;
+  color: var(--dark);
+  margin-bottom: 16px;
+}
+.barmitzvah-section p {
+  font-size: 1.1rem;
+  color: var(--text);
+  max-width: 600px;
+  margin: 0 auto 20px;
+}
+.barmitzvah-icon {
+  font-size: 4rem;
+  margin-bottom: 16px;
+}
+
+/* Fun Facts */
+.facts-section { background: white; }
+.facts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  max-width: 1060px;
+  margin: 0 auto;
+}
+.fact-card {
+  text-align: center;
+  padding: 20px;
+  border-radius: 12px;
+  background: var(--light);
+}
+.fact-card .fact-icon { font-size: 2.5rem; margin-bottom: 8px; }
+.fact-card .fact-text { font-size: 0.9rem; color: var(--text); }
+
+/* Hotels */
+.hotels-section { background: var(--light); }
+.hotel-list {
+  max-width: 700px;
+  margin: 0 auto;
+}
+.hotel-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 16px;
+  background: white;
+  border-radius: 10px;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+}
+.hotel-item .nights { color: var(--muted); font-size: 0.8rem; }
+
+/* Footer */
+.footer {
+  background: var(--dark);
+  color: white;
+  text-align: center;
+  padding: 32px 20px;
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+/* Scroll */
+html { scroll-behavior: smooth; }
+
+/* Nav */
+.nav {
+  position: sticky;
+  top: 0;
+  background: rgba(26,26,46,0.95);
+  backdrop-filter: blur(10px);
+  z-index: 1000;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.nav a {
+  color: white;
+  text-decoration: none;
+  font-size: 0.85rem;
+  padding: 4px 12px;
+  border-radius: 20px;
+  transition: background 0.2s;
+}
+.nav a:hover { background: rgba(255,255,255,0.15); }
+
+/* Transport */
+.transport-line {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 0.82rem;
+  margin-top: 6px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--border);
+}
+
+@media (max-width: 600px) {
+  .timeline::before { right: 16px; }
+  .day-card { margin-right: 40px; padding: 16px; }
+  .day-card::before { right: -36px; width: 28px; height: 28px; font-size: 0.65rem; }
+  #map { height: 350px; }
+  .countdown-item { min-width: 65px; padding: 8px 12px; }
+  .countdown-item .num { font-size: 1.5rem; }
+  .stats-grid { gap: 16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="bar-mitzvah-badge">✡ בר המצווה של שקד ✡</div>
+  <h1>🇨🇳 המסע הגדול לסין</h1>
+  <div class="subtitle">15 ימים של הרפתקאות, טבע עוצר נשימה ותרבות עתיקה</div>
+  <div class="dates">23 בדצמבר 2026 — 6 בינואר 2027</div>
+  <div class="subtitle">שנחאי • ג'אנג'יאג'יה • פנגהואנג • קונמינג • דאלי • ליג'יאנג</div>
+  <div class="countdown" id="countdown"></div>
+</div>
+
+<!-- Nav -->
+<nav class="nav">
+  <a href="#map-sec">מפה</a>
+  <a href="#itinerary">מסלול יומי</a>
+  <a href="#suitability">מתאים למי?</a>
+  <a href="#practical">מידע מעשי</a>
+  <a href="#hotels-sec">מלונות</a>
+  <a href="#barmitzvah">בר מצווה</a>
+</nav>
+
+<!-- Stats Bar -->
+<div class="stats-bar">
+  <div class="stats-grid">
+    <div class="stat"><span class="num">15</span><span class="label">ימי טיול</span></div>
+    <div class="stat"><span class="num">6</span><span class="label">ערים</span></div>
+    <div class="stat"><span class="num">3</span><span class="label">אתרי UNESCO</span></div>
+    <div class="stat"><span class="num">4,506</span><span class="label">מטר — נקודה גבוהה</span></div>
+    <div class="stat"><span class="num">2</span><span class="label">טיסות פנימיות</span></div>
+    <div class="stat"><span class="num">4</span><span class="label">נסיעות רכבת מהירה</span></div>
+  </div>
+</div>
+
+<!-- Map Section -->
+<div class="section map-section" id="map-sec">
+  <div class="container">
+    <h2 class="section-title">🗺️ מפת המסע</h2>
+    <p class="section-subtitle">לחצו על הסמנים לפרטים על כל יעד</p>
+    <div id="map"></div>
+  </div>
+</div>
+
+<!-- Itinerary Section -->
+<div class="section itinerary-section" id="itinerary">
+  <div class="container">
+    <h2 class="section-title">📅 מסלול הטיול — יום אחר יום</h2>
+    <p class="section-subtitle">כל יום הוא הרפתקה חדשה</p>
+    <div class="timeline">
+
+      <!-- Day 1 -->
+      <div class="day-card region-shanghai" data-day="D1">
+        <div class="day-header">
+          <div>
+            <span class="day-city city-shanghai">שנחאי</span>
+            <div class="day-title">🛬 נחיתה בשנחאי — ברוכים הבאים לסין!</div>
+          </div>
+          <span class="day-date">23 בדצמבר, יום רביעי</span>
+        </div>
+        <p class="day-desc">הגעה לשנחאי, העיר המטרופולינית הגדולה בסין. העברה למלון דיסנילנד — ההרפתקה מתחילה!</p>
+        <div class="day-hotel">🏨 Disney Land Hotel — מלון 5 כוכבים בתוך קסם דיסני</div>
+        <div class="badges">
+          <span class="badge badge-green">👴 קל לסבא וסבתא</span>
+          <span class="badge badge-green">👶 מושלם לילדים</span>
+          <span class="badge badge-type">🛬 יום הגעה</span>
+        </div>
+      </div>
+
+      <!-- Day 2 -->
+      <div class="day-card region-shanghai" data-day="D2">
+        <div class="day-header">
+          <div>
+            <span class="day-city city-shanghai">שנחאי</span>
+            <div class="day-title">🏰 יום שלם בדיסנילנד שנחאי!</div>
+          </div>
+          <span class="day-date">24 בדצמבר, יום חמישי</span>
+        </div>
+        <p class="day-desc">יום שלם בפארק דיסנילנד שנחאי — הפארק הגדול והמרשים ביותר באסיה! אטרקציות, מופעים, דמויות דיסני ועולמות קסומים. חוויה בלתי נשכחת לכל המשפחה.</p>
+        <div class="day-hotel">🏨 Disney Land Hotel</div>
+        <div class="badges">
+          <span class="badge badge-green">👴 קל — אפשר לנוח בספסלים ולהנות מהמופעים</span>
+          <span class="badge badge-green">👶 גן עדן לילדים!</span>
+          <span class="badge badge-type">🎢 פארק שעשועים</span>
+        </div>
+      </div>
+
+      <!-- Day 3 -->
+      <div class="day-card region-shanghai" data-day="D3">
+        <div class="day-header">
+          <div>
+            <span class="day-city city-shanghai">שנחאי → ג'אנג'יאג'יה</span>
+            <div class="day-title">✈️ בוקר בדיסנילנד + טיסה לג'אנג'יאג'יה</div>
+          </div>
+          <span class="day-date">25 בדצמבר, יום שישי</span>
+        </div>
+        <p class="day-desc">בוקר אחרון בדיסנילנד, ואז העברה לשדה התעופה של שנחאי. טיסה ערב לג'אנג'יאג'יה (19:10-21:40) — עולם ה"אווטאר" מחכה!</p>
+        <div class="day-hotel">🏨 מלון 5 כוכבים בג'אנג'יאג'יה</div>
+        <div class="transport-line">✈️ טיסה פנימית: שנחאי → ג'אנג'יאג'יה (19:10-21:40)</div>
+        <div class="badges">
+          <span class="badge badge-yellow">👴 בינוני — יום נסיעות</span>
+          <span class="badge badge-yellow">👶 בסדר — טיסה קצרה</span>
+          <span class="badge badge-type">🛫 יום מעבר</span>
+        </div>
+      </div>
+
+      <!-- Day 4 -->
+      <div class="day-card region-zhangjiajie" data-day="D4">
+        <div class="day-header">
+          <div>
+            <span class="day-city city-zhangjiajie">ג'אנג'יאג'יה</span>
+            <div class="day-title">🏔️ עולם האווטאר — יואנג'יאג'יה והר טיאנזי</div>
+          </div>
+          <span class="day-date">26 בדצמבר, שבת</span>
+        </div>
+        <p class="day-desc">יום מלא בשמורת וולינגיואן! עלייה במעלית באילונג — המעלית החיצונית הגבוהה בעולם (66 שניות מהעמק לפסגה). סיור ביואנג'יאג'יה — מיקום הצילומים של "אווטאר" והר הללויה האמיתי. ביקור בשמורת הר טיאנזי — "מלך יערות הפסגות". לבסוף, נסיעה ברכבת הנופית דרך גלריית עשרת הקילומטרים — נוף כמו ציור דיו סיני.</p>
+        <div class="day-hotel">🏨 Wulingyuan Hilton — מלון 5 כוכבים</div>
+        <div class="badges">
+          <span class="badge badge-yellow">👴 בינוני — מעלית + הליכה, אפשר לדלג על חלקים</span>
+          <span class="badge badge-yellow">👶 בינוני — הליכות ארוכות אבל מרתקות</span>
+          <span class="badge badge-type">🏞️ טבע</span>
+          <span class="badge badge-type">🎬 אווטאר!</span>
+        </div>
+      </div>
+
+      <!-- Day 5 -->
+      <div class="day-card region-zhangjiajie" data-day="D5">
+        <div class="day-header">
+          <div>
+            <span class="day-city city-zhangjiajie">ג'אנג'יאג'יה</span>
+            <div class="day-title">🐒 מערת הדרקון הצהוב + נחל שוט הזהב</div>
+          </div>
+          <span class="day-date">27 בדצמבר, יום ראשון</span>
+        </div>
+        <p class="day-desc">מערת הדרקון הצהוב — מערה מרהיבה עם שיט בנהר תת-קרקעי. נחל שוט הזהב — הליכה קלה ונעימה לאורך הנחל עם קופים פראיים! אפשרות לביקור בהואנגשיג'אי.</p>
+        <div class="day-hotel">🏨 Wulingyuan Hilton</div>
+        <div class="badges">
+          <span class="badge badge-green">👴 קל-בינוני — הליכה שטוחה</span>
+          <span class="badge badge-green">👶 מעולה — קופים! 🐒</span>
+          <span class="badge badge-type">🏞️ טבע</span>
+          <span class="badge badge-type">🦇 מערה</span>
+        </div>
+      </div>
+
+      <!-- Day 6 -->
+      <div class="day-card region-zhangjiajie" data-day="D6">
+        <div class="day-header">
+          <div>
+            <span class="day-city city-zhangjiajie">ג'אנג'יאג'יה</span>
+            <div class="day-title">🌉 גשר הזכוכית + אגם באופנג</div>
+          </div>
+          <span class="day-date">28 בדצמבר, יום שני</span>
+        </div>
+        <p class="day-desc">חוויה מרגשת! גשר הזכוכית השקוף והגבוה בעולם — 375 מטר אורך, 300 מטר מעל הקניון, 99 לוחות זכוכית שקופים. אחר כך — אגם באופנג, אגם ירוק-שקוף מוקף הרים, שיט בסירת עץ מסורתית בין ההרים.</p>
+        <div class="day-hotel">🏨 Wulingyuan Hilton</div>
+        <div class="badges">
+          <span class="badge badge-yellow">👴 בינוני — הגשר מרגש, האגם רגוע</span>
+          <span class="badge badge-yellow">👶 בינוני — הגשר עלול להיות מפחיד, האגם מקסים</span>
+          <span class="badge badge-type">🌉 הרפתקה</span>
+          <span class="badge badge-type">⛵ אגם</span>
+        </div>
+      </div>
+
+      <!-- Day 7 -->
+      <div class="day-card region-zhangjiajie" data-day="D7">
+        <div class="day-header">
+          <div>
+            <span class="day-city city-zhangjiajie">ג'אנג'יאג'יה → פנגהואנג</span>
+            <div class="day-title">🚡 הר טיאנמן + העיר העתיקה פנגהואנג בלילה</div>
+          </div>
+          <span class="day-date">29 בדצמבר, יום שלישי</span>
+        </div>
+        <p class="day-desc">בבוקר — הר טיאנמן! רכבל של 30 דקות מעל 99 פיתולי הכביש. בפסגה: מקדש טיאנמן (אחד מחמישה מקדשים בודהיסטיים בעולם עם שריד גוף בודהה), גשר תלוי שקוף וגשר עמק הרפאים בצוק. אחר כך — נסיעה לפנגהואנג, אחת מהעיירות העתיקות היפות בסין. שיט בנהר טואוג'יאנג ונוף לילי קסום.</p>
+        <div class="day-hotel">🏨 Wulingyuan Hilton</div>
+        <div class="transport-line">🚗 נסיעה ~3.5 שעות או 🚄 רכבת מהירה שעה אחת לפנגהואנג</div>
+        <div class="badges">
+          <span class="badge badge-yellow">👴 בינוני — רכבל נוח, הגשרים התלויים אופציונליים</span>
+          <span class="badge badge-green">👶 טוב — רכבל מרגש, העיירה העתיקה קסומה</span>
+          <span class="badge badge-type">🚡 רכבל</span>
+          <span class="badge badge-type">🏯 תרבות</span>
+        </div>
+      </div>
+
+      <!-- Day 8 -->
+      <div class="day-card region-yunnan" data-day="D8">
+        <div class="day-header">
+          <div>
+            <span class="day-city city-fenghuang">פנגהואנג → קונמינג</span>
+            <div class="day-title">🏯 בוקר בעיירה העתיקה + טיסה לקונמינג</div>
+          </div>
+          <span class="day-date">30 בדצמבר, יום רביעי</span>
+        </div>
+        <p class="day-desc">בוקר חופשי בפנגהואנג — סמטאות אבן, בתי עץ תלויים מעל הנהר, תרבות המיאו העשירה. אחר כך רכבת מהירה חזרה לג'אנג'יאג'יה וטיסת ערב לקונמינג (19:50-22:00). מגיעים ליונאן — "עיר האביב הנצחי"!</p>
+        <div class="day-hotel">🏨 Four Points by Sheraton — מלון 5 כוכבים</div>
+        <div class="transport-line">🚄 רכבת מהירה לג'אנג'יאג'יה + ✈️ טיסה לקונמינג (19:50-22:00)</div>
+        <div class="badges">
+          <span class="badge badge-yellow">👴 בינוני — יום נסיעות</span>
+          <span class="badge badge-yellow">👶 בסדר — הרבה תחבורה</span>
+          <span class="badge badge-type">🛫 יום מעבר</span>
+        </div>
+      </div>
+
+      <!-- Day 9 -->
+      <div class="day-card region-yunnan" data-day="D9">
+        <div class="day-header">
+          <div>
+            <span class="day-city city-kunming">קונמינג</span>
+            <div class="day-title">😴 יום מנוחה — סילבסטר בקונמינג!</div>
+          </div>
+          <span class="day-date">31 בדצמבר, יום חמישי</span>
+        </div>
+        <p class="day-desc">יום מנוחה וחקירה חופשית במרכז קונמינג (ללא מדריך ורכב). מומלץ: פארק האגם הירוק — "תכשיט העיר", עם צמחייה טרופית ואווירה נעימה. האקדמיה הצבאית של יונאן (1909) — אחת משלוש האקדמיות הצבאיות המפורסמות בסין.</p>
+        <div class="day-hotel">🏨 Four Points by Sheraton</div>
+        <div class="badges">
+          <span class="badge badge-green">👴 קל — יום מנוחה מושלם</span>
+          <span class="badge badge-green">👶 קל — פארק ומשחקים</span>
+          <span class="badge badge-type">😴 מנוחה</span>
+          <span class="badge badge-type">🎆 סילבסטר!</span>
+        </div>
+      </div>
+
+      <!-- Day 10 -->
+      <div class="day-card region-yunnan" data-day="D10">
+        <div class="day-header">
+          <div>
+            <span class="day-city city-kunming">קונמינג → דאלי</span>
+            <div class="day-title">🪨 יער האבנים + רכבת מהירה לדאלי</div>
+          </div>
+          <span class="day-date">1 בינואר, יום שישי</span>
+        </div>
+        <p class="day-desc">יער האבנים — אתר מורשת עולמית של UNESCO! נוף קארסט מדהים עם תצורות אבן גיר ענקיות שנראות כמו יער מאובן. סיור ברכב חשמלי. אחר כך רכבת מהירה לדאלי (17:00-19:17) — עיר ההרים והאגם.</p>
+        <div class="day-hotel">🏨 Dali Honglongjing Hotel — מלון 5 כוכבים</div>
+        <div class="transport-line">🚄 רכבת מהירה: קונמינג → דאלי (17:00-19:17)</div>
+        <div class="badges">
+          <span class="badge badge-green">👴 קל — רכב חשמלי זמין</span>
+          <span class="badge badge-green">👶 מעולה — סלעים מגניבים!</span>
+          <span class="badge badge-type">🪨 UNESCO</span>
+          <span class="badge badge-type">🏞️ טבע</span>
+        </div>
+      </div>
+
+      <!-- Day 11 -->
+      <div class="day-card region-yunnan" data-day="D11">
+        <div class="day-header">
+          <div>
+            <span class="day-city city-dali">דאלי</span>
+            <div class="day-title">🗼 שלוש הפגודות + אגם ארחאי + העיר העתיקה</div>
+          </div>
+          <span class="day-date">2 בינואר, שבת</span>
+        </div>
+        <p class="day-desc">שלוש הפגודות של דאלי — אתר UNESCO מרשים בן 1,000 שנה. טיול לאורך מפרץ S של אגם ארחאי — נופי אגם הרים מרהיבים ואוויר צלול. סיור בעיר העתיקה של דאלי — סמטאות אבן, ארכיטקטורת באי מסורתית ואווירה מיוחדת.</p>
+        <div class="day-hotel">🏨 Dali Honglongjing Hotel</div>
+        <div class="badges">
+          <span class="badge badge-green">👴 קל — הליכה נעימה</span>
+          <span class="badge badge-green">👶 מעולה — אגם ועיר עתיקה</span>
+          <span class="badge badge-type">🗼 UNESCO</span>
+          <span class="badge badge-type">🏯 תרבות</span>
+        </div>
+      </div>
+
+      <!-- Day 12 -->
+      <div class="day-card region-yunnan" data-day="D12">
+        <div class="day-header">
+          <div>
+            <span class="day-city city-dali">דאלי → ליג'יאנג</span>
+            <div class="day-title">🏝️ סנטוריני של דאלי + העיר העתיקה ליג'יאנג</div>
+          </div>
+          <span class="day-date">3 בינואר, יום ראשון</span>
+        </div>
+        <p class="day-desc">ביקור ב"סנטוריני של דאלי" — אתר נופי מעוצב בהשראת האי היווני, עם נופים מדהימים. נסיעה של 2.5 שעות לליג'יאנג — אתר מורשת עולמית של UNESCO! סיור בעיר העתיקה עם סמטאות אבן, תעלות מים ותרבות הנאש'י העתיקה.</p>
+        <div class="day-hotel">🏨 Lijiang InterContinental — מלון 4 כוכבים</div>
+        <div class="transport-line">🚗 נסיעה ~2.5 שעות מדאלי לליג'יאנג</div>
+        <div class="badges">
+          <span class="badge badge-green">👴 קל — טיולי רגל נעימים</span>
+          <span class="badge badge-green">👶 מעולה — עיר עתיקה קסומה</span>
+          <span class="badge badge-type">📸 צילומים</span>
+          <span class="badge badge-type">🏯 UNESCO</span>
+        </div>
+      </div>
+
+      <!-- Day 13 -->
+      <div class="day-card region-yunnan" data-day="D13">
+        <div class="day-header">
+          <div>
+            <span class="day-city city-lijiang">ליג'יאנג</span>
+            <div class="day-title">🏔️ הר הדרקון של השלג הירקרק!</div>
+          </div>
+          <span class="day-date">4 בינואר, יום שני</span>
+        </div>
+        <p class="day-desc">יום בלתי נשכח! רכבל לפארק הקרחון בגובה 4,506 מטר — נוף קרחוני עוצר נשימה. רכב חשמלי לעמק הירח הכחול — מים בצבע טורקיז מדהים. מופע "החותם של ליג'יאנג" — מופע חוצות מרהיב. אחר הצהריים: כפר מי הירקן — "הארץ הקדושה" של דת הדונגבא ומקור הרוחני של ליג'יאנג.</p>
+        <div class="day-hotel">🏨 Lijiang InterContinental</div>
+        <div class="badges">
+          <span class="badge badge-yellow">👴 בינוני — גובה רב (4,500 מ'), רכבל נוח</span>
+          <span class="badge badge-yellow">👶 בינוני — הגובה עלול לגרום לסחרחורת, אבל מדהים</span>
+          <span class="badge badge-type">🏔️ הרים</span>
+          <span class="badge badge-type">🎭 מופע</span>
+        </div>
+      </div>
+
+      <!-- Day 14 -->
+      <div class="day-card region-yunnan" data-day="D14">
+        <div class="day-header">
+          <div>
+            <span class="day-city city-lijiang">ליג'יאנג → קונמינג</span>
+            <div class="day-title">🐉 בריכת הדרקון השחור + רכבת לקונמינג</div>
+          </div>
+          <span class="day-date">5 בינואר, יום שלישי</span>
+        </div>
+        <p class="day-desc">בריכת הדרקון השחור — פארק היסטורי מ-1737 (שושלת צ'ינג), סביב מעיין קריסטלי שמזין את העיר העתיקה. נופים שלווים ואדריכלות סינית קלאסית. אחר כך רכבת מהירה חזרה לקונמינג (11:33-16:03) וזמן חופשי לקניות.</p>
+        <div class="day-hotel">🏨 Four Points by Sheraton</div>
+        <div class="transport-line">🚄 רכבת מהירה: ליג'יאנג → קונמינג (11:33-16:03)</div>
+        <div class="badges">
+          <span class="badge badge-green">👴 קל — פארק שקט ורכבת</span>
+          <span class="badge badge-green">👶 קל — פארק + קניות</span>
+          <span class="badge badge-type">🌿 פארק</span>
+          <span class="badge badge-type">🛍️ קניות</span>
+        </div>
+      </div>
+
+      <!-- Day 15 -->
+      <div class="day-card region-yunnan" data-day="D15">
+        <div class="day-header">
+          <div>
+            <span class="day-city city-kunming">קונמינג → חזרה הביתה</span>
+            <div class="day-title">🚡 פארק הגבעה המערבית + אגם דיאנצ'י + טיסה הביתה</div>
+          </div>
+          <span class="day-date">6 בינואר, יום רביעי</span>
+        </div>
+        <p class="day-desc">היום האחרון! פארק היער של הגבעה המערבית (שישאן) — רכבל למעלה ההר עם פנורמה עוצרת נשימה של אגם דיאנצ'י. ההר ידוע בשם "הר היפהפייה הישנה" בזכות הצללית הייחודית שלו. הליכה נעימה וצילומים. אחר כך — העברה לשדה התעופה של קונמינג וטיסה הביתה. להתראות סין! 🇨🇳</p>
+        <div class="transport-line">✈️ טיסה הביתה משדה התעופה של קונמינג</div>
+        <div class="badges">
+          <span class="badge badge-green">👴 קל — רכבל נוח</span>
+          <span class="badge badge-green">👶 טוב — רכבל מרגש</span>
+          <span class="badge badge-type">🚡 רכבל</span>
+          <span class="badge badge-type">🛫 טיסה הביתה</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Suitability Section -->
+<div class="section suit-section" id="suitability">
+  <div class="container">
+    <h2 class="section-title">👨‍👩‍👧‍👦 מתאים לסבא וסבתא? מתאים לילדים?</h2>
+    <p class="section-subtitle">סיכום התאמה לכל יום — ירוק = קל, כתום = בינוני</p>
+    <div class="suit-grid">
+      <div class="suit-card">
+        <h3>👴👵 סבא וסבתא</h3>
+        <div class="suit-item"><span>D1-D2 דיסנילנד</span><span class="suit-dot dot-green"></span></div>
+        <div class="suit-item"><span>D3 טיסה לג'אנג'יאג'יה</span><span class="suit-dot dot-yellow"></span></div>
+        <div class="suit-item"><span>D4 יואנג'יאג'יה + טיאנזי</span><span class="suit-dot dot-yellow"></span></div>
+        <div class="suit-item"><span>D5 מערה + נחל</span><span class="suit-dot dot-green"></span></div>
+        <div class="suit-item"><span>D6 גשר זכוכית + אגם</span><span class="suit-dot dot-yellow"></span></div>
+        <div class="suit-item"><span>D7 הר טיאנמן + פנגהואנג</span><span class="suit-dot dot-yellow"></span></div>
+        <div class="suit-item"><span>D8 טיסה לקונמינג</span><span class="suit-dot dot-yellow"></span></div>
+        <div class="suit-item"><span>D9 מנוחה בקונמינג</span><span class="suit-dot dot-green"></span></div>
+        <div class="suit-item"><span>D10 יער האבנים</span><span class="suit-dot dot-green"></span></div>
+        <div class="suit-item"><span>D11 דאלי — פגודות + אגם</span><span class="suit-dot dot-green"></span></div>
+        <div class="suit-item"><span>D12 סנטוריני + ליג'יאנג</span><span class="suit-dot dot-green"></span></div>
+        <div class="suit-item"><span>D13 הר השלג 4,500 מ'</span><span class="suit-dot dot-yellow"></span></div>
+        <div class="suit-item"><span>D14 בריכת הדרקון + רכבת</span><span class="suit-dot dot-green"></span></div>
+        <div class="suit-item"><span>D15 גבעה מערבית + טיסה</span><span class="suit-dot dot-green"></span></div>
+        <p style="margin-top:12px; font-size:0.85rem; color:var(--muted);">💡 ברוב הימים יש אפשרות לרכב חשמלי, רכבל או מעלית. אפשר לדלג על חלקים מאתגרים.</p>
+      </div>
+      <div class="suit-card">
+        <h3>👧🧒 ילדים (גיל 6)</h3>
+        <div class="suit-item"><span>D1-D2 דיסנילנד!</span><span class="suit-dot dot-green"></span></div>
+        <div class="suit-item"><span>D3 טיסה</span><span class="suit-dot dot-yellow"></span></div>
+        <div class="suit-item"><span>D4 הרים + מעלית</span><span class="suit-dot dot-yellow"></span></div>
+        <div class="suit-item"><span>D5 מערה + קופים! 🐒</span><span class="suit-dot dot-green"></span></div>
+        <div class="suit-item"><span>D6 גשר זכוכית (מפחיד!)</span><span class="suit-dot dot-yellow"></span></div>
+        <div class="suit-item"><span>D7 רכבל + עיירה עתיקה</span><span class="suit-dot dot-green"></span></div>
+        <div class="suit-item"><span>D8 נסיעות</span><span class="suit-dot dot-yellow"></span></div>
+        <div class="suit-item"><span>D9 מנוחה + פארק</span><span class="suit-dot dot-green"></span></div>
+        <div class="suit-item"><span>D10 סלעים ענקיים!</span><span class="suit-dot dot-green"></span></div>
+        <div class="suit-item"><span>D11 אגם + עיר עתיקה</span><span class="suit-dot dot-green"></span></div>
+        <div class="suit-item"><span>D12 סנטוריני + ליג'יאנג</span><span class="suit-dot dot-green"></span></div>
+        <div class="suit-item"><span>D13 שלג + קרחון (גובה!)</span><span class="suit-dot dot-yellow"></span></div>
+        <div class="suit-item"><span>D14 פארק + רכבת</span><span class="suit-dot dot-green"></span></div>
+        <div class="suit-item"><span>D15 רכבל + טיסה</span><span class="suit-dot dot-green"></span></div>
+        <p style="margin-top:12px; font-size:0.85rem; color:var(--muted);">💡 דיסנילנד, הקופים, יער האבנים, והרכבלים יהיו הדגשים! גשר הזכוכית — החלטה אישית.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bar Mitzvah Section -->
+<div class="barmitzvah-section" id="barmitzvah">
+  <div class="barmitzvah-icon">✡️</div>
+  <h2>מזל טוב שקד!</h2>
+  <p>חגיגת בר המצווה של שקד — מסע משפחתי בלתי נשכח בסין. 15 ימים של הרפתקאות, גילויים, וזיכרונות שילוו אותנו לתמיד.</p>
+  <p style="font-size: 2rem;">🎉🇨🇳✡️🐉🏮</p>
+  <p style="color: var(--muted); font-size: 0.9rem; margin-top: 16px;">— המשפחה —</p>
+</div>
+
+<!-- Practical Info -->
+<div class="section practical-section" id="practical">
+  <div class="container">
+    <h2 class="section-title">🧳 מידע מעשי</h2>
+    <p class="section-subtitle">כל מה שצריך לדעת לפני הטיול</p>
+    <div class="info-grid">
+
+      <div class="info-card">
+        <h3>🌡️ מזג אוויר (דצמבר-ינואר)</h3>
+        <ul>
+          <li>שנחאי: 2-8°C — קר, רוח, לחות</li>
+          <li>ג'אנג'יאג'יה: 1-8°C — קר, אפשרי ערפל</li>
+          <li>קונמינג: 3-17°C — "עיר האביב הנצחי" 🌸</li>
+          <li>דאלי: 2-16°C — שמשי ביום, קר בלילה</li>
+          <li>ליג'יאנג: 0-15°C — קר, במיוחד בגובה</li>
+          <li>הר השלג: עד מינוס 10°C! ❄️</li>
+        </ul>
+      </div>
+
+      <div class="info-card">
+        <h3>👕 מה לארוז</h3>
+        <ul>
+          <li>מעיל חורף עבה (במיוחד להר השלג)</li>
+          <li>שכבות — קר בבוקר, נוח בצהריים</li>
+          <li>נעלי הליכה נוחות ומונעות החלקה</li>
+          <li>כובע, כפפות וצעיף</li>
+          <li>בגדי גשם קלים</li>
+          <li>מטען נייד לטלפון 🔋</li>
+          <li>תרופות אישיות + נגד מחלת גבהים</li>
+          <li>קרם הגנה (השמש חזקה בגובה!)</li>
+        </ul>
+      </div>
+
+      <div class="info-card">
+        <h3>✈️🚄 טיסות ורכבות</h3>
+        <ul>
+          <li>✈️ שנחאי → ג'אנג'יאג'יה (25/12 ערב)</li>
+          <li>🚄 פנגהואנג → ג'אנג'יאג'יה (30/12)</li>
+          <li>✈️ ג'אנג'יאג'יה → קונמינג (30/12 ערב)</li>
+          <li>🚄 קונמינג → דאלי (1/1 אחה"צ)</li>
+          <li>🚗 דאלי → ליג'יאנג (3/1, ~2.5 שעות)</li>
+          <li>🚄 ליג'יאנג → קונמינג (5/1)</li>
+          <li>✈️ קונמינג → הביתה (6/1)</li>
+        </ul>
+      </div>
+
+      <div class="info-card">
+        <h3>📋 טיפים חשובים</h3>
+        <ul>
+          <li>ויזה סינית — לסדר מראש!</li>
+          <li>רכב פרטי 17 מושבים + נהג לכל הטיול</li>
+          <li>כל מלונות 4-5 כוכבים כולל ארוחת בוקר</li>
+          <li>כרטיסי כניסה לאתרים כלולים</li>
+          <li>ביטוח נסיעות ביונאן כלול</li>
+          <li>כרטיסי רכבת — מחלקה ראשונה</li>
+          <li>טיפ מומלץ למדריך: 150 RMB/יום</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Hotels Section -->
+<div class="section hotels-section" id="hotels-sec">
+  <div class="container">
+    <h2 class="section-title">🏨 המלונות שלנו</h2>
+    <p class="section-subtitle">כל הלילות במלונות 4-5 כוכבים</p>
+    <div class="hotel-list">
+      <div class="hotel-item"><span>🏰 Disney Land Hotel — שנחאי</span><span class="nights">לילות 1-2 (23-25/12)</span></div>
+      <div class="hotel-item"><span>⭐ מלון 5 כוכבים — ג'אנג'יאג'יה</span><span class="nights">לילה 3 (25/12)</span></div>
+      <div class="hotel-item"><span>🏔️ Wulingyuan Hilton 5★ — ג'אנג'יאג'יה</span><span class="nights">לילות 4-7 (26-29/12)</span></div>
+      <div class="hotel-item"><span>🌸 Four Points by Sheraton — קונמינג</span><span class="nights">לילות 8-9 (30-31/12)</span></div>
+      <div class="hotel-item"><span>🏞️ Dali Honglongjing Hotel 5★ — דאלי</span><span class="nights">לילות 10-11 (1-2/1)</span></div>
+      <div class="hotel-item"><span>❄️ Lijiang InterContinental — ליג'יאנג</span><span class="nights">לילות 12-13 (3-4/1)</span></div>
+      <div class="hotel-item"><span>🌸 Four Points by Sheraton — קונמינג</span><span class="nights">לילה 14 (5/1)</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- Fun Facts -->
+<div class="section facts-section">
+  <div class="container">
+    <h2 class="section-title">🤓 עובדות מעניינות</h2>
+    <div class="facts-grid">
+      <div class="fact-card">
+        <div class="fact-icon">🏔️</div>
+        <div class="fact-text">הר הדרקון של השלג הירקרק מגיע לגובה 5,596 מטר — אנחנו נטפס לרכבל עד 4,506!</div>
+      </div>
+      <div class="fact-card">
+        <div class="fact-icon">🌉</div>
+        <div class="fact-text">גשר הזכוכית בג'אנג'יאג'יה — 375 מטר אורך, 300 מטר מעל הקניון, מ-99 לוחות זכוכית</div>
+      </div>
+      <div class="fact-card">
+        <div class="fact-icon">🎬</div>
+        <div class="fact-text">ההרים בג'אנג'יאג'יה שימשו כהשראה לכוכב פנדורה בסרט "אווטאר" של ג'יימס קמרון</div>
+      </div>
+      <div class="fact-card">
+        <div class="fact-icon">🏮</div>
+        <div class="fact-text">פנגהואנג נחשבת לאחת מהעיירות העתיקות היפות ביותר בסין — בת למעלה מ-1,300 שנה</div>
+      </div>
+      <div class="fact-card">
+        <div class="fact-icon">🪨</div>
+        <div class="fact-text">יער האבנים הוא בן 270 מיליון שנה — תצורות אבן גיר שנוצרו כשהאזור היה מתחת למים</div>
+      </div>
+      <div class="fact-card">
+        <div class="fact-icon">🌸</div>
+        <div class="fact-text">קונמינג נקראת "עיר האביב הנצחי" — הטמפרטורה נעימה כל השנה בזכות הגובה והמיקום</div>
+      </div>
+      <div class="fact-card">
+        <div class="fact-icon">🐒</div>
+        <div class="fact-text">בנחל שוט הזהב תפגשו מקאקים — קופים פראיים שרגילים לתיירים ולפעמים גונבים חטיפים!</div>
+      </div>
+      <div class="fact-card">
+        <div class="fact-icon">🚡</div>
+        <div class="fact-text">מעלית באילונג — 326 מטר גובה, 66 שניות, שיא גינס למעלית חיצונית הגבוהה בעולם</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+  <p>🇨🇳 המסע הגדול לסין — בר המצווה של שקד 🇨🇳</p>
+  <p style="opacity: 0.6; margin-top: 8px;">23 בדצמבר 2026 — 6 בינואר 2027</p>
+</div>
+
+<script>
+// Countdown
+function updateCountdown() {
+  const target = new Date('2026-12-23T00:00:00');
+  const now = new Date();
+  const diff = target - now;
+  if (diff <= 0) {
+    document.getElementById('countdown').innerHTML = '<div style="font-size:1.3rem;">!המסע התחיל 🎉</div>';
+    return;
+  }
+  const days = Math.floor(diff / (1000*60*60*24));
+  const hours = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
+  const mins = Math.floor((diff % (1000*60*60)) / (1000*60));
+  const secs = Math.floor((diff % (1000*60)) / 1000);
+  document.getElementById('countdown').innerHTML = `
+    <div class="countdown-item"><span class="num">${secs}</span><span class="label">שניות</span></div>
+    <div class="countdown-item"><span class="num">${mins}</span><span class="label">דקות</span></div>
+    <div class="countdown-item"><span class="num">${hours}</span><span class="label">שעות</span></div>
+    <div class="countdown-item"><span class="num">${days}</span><span class="label">ימים</span></div>
+  `;
+}
+updateCountdown();
+setInterval(updateCountdown, 1000);
+
+// Map
+const map = L.map('map').setView([28, 108], 5);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '© OpenStreetMap contributors',
+  maxZoom: 18,
+}).addTo(map);
+
+const locations = [
+  {
+    name: 'שנחאי',
+    lat: 31.14, lng: 121.66,
+    color: '#1d3557',
+    days: 'ימים 1-3',
+    desc: 'דיסנילנד שנחאי — הפארק הגדול והמרשים באסיה! שני ימים של קסם דיסני, אטרקציות מטורפות ומופעים.',
+    highlights: '🏰 דיסנילנד • 🎢 אטרקציות • ✨ קסם'
+  },
+  {
+    name: "ג'אנג'יאג'יה",
+    lat: 29.33, lng: 110.48,
+    color: '#2d6a4f',
+    days: 'ימים 4-7',
+    desc: 'עולם האווטאר! הרי עמודים מרהיבים, מעלית באילונג (הגבוהה בעולם), גשר הזכוכית, הר טיאנמן ואגם באופנג.',
+    highlights: '🏔️ אווטאר • 🌉 גשר זכוכית • 🚡 רכבל • 🐒 קופים'
+  },
+  {
+    name: 'פנגהואנג',
+    lat: 27.95, lng: 109.60,
+    color: '#9d174d',
+    days: 'יום 7-8',
+    desc: 'אחת העיירות העתיקות היפות בסין (1,300 שנה). בתי עץ תלויים מעל הנהר, תרבות המיאו, ונוף לילי קסום.',
+    highlights: '🏯 עיר עתיקה • 🌙 נוף לילי • ⛵ שיט בנהר'
+  },
+  {
+    name: 'קונמינג',
+    lat: 25.04, lng: 102.72,
+    color: '#92400e',
+    days: 'ימים 9-10, 14-15',
+    desc: '"עיר האביב הנצחי" — בירת יונאן. יער האבנים (UNESCO), פארק האגם הירוק, הגבעה המערבית ואגם דיאנצ\'י.',
+    highlights: '🪨 יער אבנים UNESCO • 🌸 אביב נצחי • 🚡 רכבל'
+  },
+  {
+    name: 'דאלי',
+    lat: 25.61, lng: 100.27,
+    color: '#5b21b6',
+    days: 'ימים 11-12',
+    desc: 'שלוש הפגודות (UNESCO), אגם ארחאי, העיר העתיקה עם ארכיטקטורת באי, ו"סנטוריני של דאלי".',
+    highlights: '🗼 פגודות UNESCO • 🏝️ סנטוריני • 🌊 אגם ארחאי'
+  },
+  {
+    name: "ליג'יאנג",
+    lat: 26.87, lng: 100.23,
+    color: '#e76f51',
+    days: 'ימים 12-14',
+    desc: 'עיר עתיקה (UNESCO), הר הדרקון של השלג הירקרק (4,506 מ\'), עמק הירח הכחול, ובריכת הדרקון השחור.',
+    highlights: '❄️ הר שלג • 🐉 דרקון שחור • 🏯 UNESCO • 🎭 מופע'
+  }
+];
+
+// Draw route line
+const routeCoords = [
+  [31.14, 121.66], [29.33, 110.48], [27.95, 109.60],
+  [25.04, 102.72], [25.61, 100.27], [26.87, 100.23], [25.04, 102.72]
+];
+L.polyline(routeCoords, { color: '#c41e3a', weight: 2, opacity: 0.5, dashArray: '8,8' }).addTo(map);
+
+// Add markers
+locations.forEach(loc => {
+  const icon = L.divIcon({
+    className: '',
+    html: `<div style="
+      background: ${loc.color};
+      color: white;
+      padding: 4px 10px;
+      border-radius: 16px;
+      font-size: 12px;
+      font-weight: bold;
+      white-space: nowrap;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      border: 2px solid white;
+      text-align: center;
+    ">${loc.name}</div>`,
+    iconSize: null,
+    iconAnchor: [40, 15],
+  });
+
+  const marker = L.marker([loc.lat, loc.lng], { icon }).addTo(map);
+  marker.bindPopup(`
+    <div style="min-width: 240px; max-width: 300px;">
+      <h3>${loc.name}</h3>
+      <span class="popup-day">📅 ${loc.days}</span>
+      <p class="popup-desc">${loc.desc}</p>
+      <p style="margin-top: 8px; font-size: 0.85rem;">${loc.highlights}</p>
+    </div>
+  `, { maxWidth: 320 });
+});
+</script>
+
+</body>
+</html>
