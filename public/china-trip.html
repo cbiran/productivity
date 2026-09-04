@@ -1379,7 +1379,18 @@ locations.forEach(loc => {
   });
 
   const marker = L.marker([loc.lat, loc.lng], { icon }).addTo(map);
-// Toggle expand
+
+  marker.bindPopup(`
+    <div style="min-width: 240px; max-width: 300px;">
+      <img class="popup-img" src="${loc.img}" alt="${loc.name}" onerror="this.style.display='none'">
+      <h3>${loc.name}</h3>
+      <span class="popup-day">📅 ${loc.days}</span>
+      <p class="popup-desc">${loc.desc}</p>
+      <p style="margin-top: 8px; font-size: 0.85rem;">${loc.highlights}</p>
+    </div>
+  `, { maxWidth: 320 });
+});
+
 function toggleExpand(day) {
   const el = document.getElementById('expand-' + day);
   const btn = el.previousElementSibling.querySelector('.btn-expand');
@@ -1387,7 +1398,6 @@ function toggleExpand(day) {
   btn.textContent = el.classList.contains('open') ? 'Close' : 'Read more';
 }
 
-// Gallery data
 const galleryData = {
   1: {
     title: 'Day 1 — Shanghai Arrival',
@@ -1560,17 +1570,6 @@ function closeGallery() {
 
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') closeGallery();
-});
-
-  marker.bindPopup(`
-    <div style="min-width: 240px; max-width: 300px;">
-      <img class="popup-img" src="${loc.img}" alt="${loc.name}" onerror="this.style.display='none'">
-      <h3>${loc.name}</h3>
-      <span class="popup-day">📅 ${loc.days}</span>
-      <p class="popup-desc">${loc.desc}</p>
-      <p style="margin-top: 8px; font-size: 0.85rem;">${loc.highlights}</p>
-    </div>
-  `, { maxWidth: 320 });
 });
 </script>
 
