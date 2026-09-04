@@ -605,6 +605,7 @@ html { scroll-behavior: smooth; }
   background: linear-gradient(135deg, #e0e0e0, #f5f5f5);
 }
 .modal-grid img:hover { transform: scale(1.02); }
+.modal-grid img.gallery-focus { box-shadow: 0 0 0 3px #4f46e5, 0 0 16px rgba(79,70,229,0.3); }
 .modal-grid img:first-child {
   grid-column: 1 / -1;
   height: 300px;
@@ -689,7 +690,7 @@ html { scroll-behavior: smooth; }
           <button class="btn-expand" onclick="toggleExpand(1)">Read more</button>
         </div>
         <div class="day-expand" id="expand-1">
-          <div class="day-expand-inner">Arrive in <a href="javascript:void(0)" onclick="openGallery(1)" class="place-link">Shanghai</a>, China's largest and most cosmopolitan city. Transfer to the <a href="javascript:void(0)" onclick="openGallery(1)" class="place-link">Disneyland Hotel</a> — a stunning 5-star property right inside the Disney resort. Settle in and take your first glimpse of the magical kingdom. The adventure begins!</div>
+          <div class="day-expand-inner">Arrive in <a href="javascript:void(0)" onclick="openGallery(1,0)" class="place-link">Shanghai</a>, China's largest and most cosmopolitan city. Transfer to the <a href="javascript:void(0)" onclick="openGallery(1,3)" class="place-link">Disneyland Hotel</a> — a stunning 5-star property right inside the Disney resort. Settle in and take your first glimpse of the magical kingdom. The adventure begins!</div>
         </div>
       </div>
 
@@ -714,7 +715,7 @@ html { scroll-behavior: smooth; }
           <button class="btn-expand" onclick="toggleExpand(2)">Read more</button>
         </div>
         <div class="day-expand" id="expand-2">
-          <div class="day-expand-inner">A full day at <a href="javascript:void(0)" onclick="openGallery(2)" class="place-link">Shanghai Disneyland</a> — the largest and most spectacular Disney park in Asia! Experience <a href="javascript:void(0)" onclick="openGallery(2)" class="place-link">TRON Lightcycle Power Run</a>, Pirates of the Caribbean: Battle for the Sunken Treasure, Soaring Over the Horizon, and the <a href="javascript:void(0)" onclick="openGallery(2)" class="place-link">Enchanted Storybook Castle</a> — the tallest and most interactive Disney castle ever built. Don't miss the evening fireworks spectacular!</div>
+          <div class="day-expand-inner">A full day at <a href="javascript:void(0)" onclick="openGallery(2,0)" class="place-link">Shanghai Disneyland</a> — the largest and most spectacular Disney park in Asia! Experience <a href="javascript:void(0)" onclick="openGallery(2,2)" class="place-link">TRON Lightcycle Power Run</a>, Pirates of the Caribbean: Battle for the Sunken Treasure, Soaring Over the Horizon, and the <a href="javascript:void(0)" onclick="openGallery(2,4)" class="place-link">Enchanted Storybook Castle</a> — the tallest and most interactive Disney castle ever built. Don't miss the evening fireworks spectacular!</div>
         </div>
       </div>
 
@@ -739,7 +740,7 @@ html { scroll-behavior: smooth; }
           <button class="btn-expand" onclick="toggleExpand(3)">Read more</button>
         </div>
         <div class="day-expand" id="expand-3">
-          <div class="day-expand-inner">Final morning at <a href="javascript:void(0)" onclick="openGallery(3)" class="place-link">Disneyland</a> for any missed rides or shows, then transfer to <a href="javascript:void(0)" onclick="openGallery(3)" class="place-link">Shanghai Pudong Airport</a>. Evening flight to <a href="javascript:void(0)" onclick="openGallery(3)" class="place-link">Zhangjiajie</a> (19:10–21:40) — you're heading to the real-life Avatar world! Check into a 5-star hotel near the national park.</div>
+          <div class="day-expand-inner">Final morning at <a href="javascript:void(0)" onclick="openGallery(3,0)" class="place-link">Disneyland</a> for any missed rides or shows, then transfer to <a href="javascript:void(0)" onclick="openGallery(3,1)" class="place-link">Shanghai Pudong Airport</a>. Evening flight to <a href="javascript:void(0)" onclick="openGallery(3,3)" class="place-link">Zhangjiajie</a> (19:10–21:40) — you're heading to the real-life Avatar world! Check into a 5-star hotel near the national park.</div>
         </div>
       </div>
 
@@ -768,7 +769,7 @@ html { scroll-behavior: smooth; }
           <button class="btn-expand" onclick="toggleExpand(4)">Read more</button>
         </div>
         <div class="day-expand" id="expand-4">
-          <div class="day-expand-inner">A breathtaking full day in the <a href="javascript:void(0)" onclick="openGallery(4)" class="place-link">Wulingyuan Scenic Area</a>! Ride the <a href="javascript:void(0)" onclick="openGallery(4)" class="place-link">Bailong Elevator</a> — the world's tallest outdoor glass elevator at 326 meters. Explore <a href="javascript:void(0)" onclick="openGallery(4)" class="place-link">Yuanjiajie</a>, where the floating Hallelujah Mountains from Avatar were filmed. Visit <a href="javascript:void(0)" onclick="openGallery(4)" class="place-link">Tianzi Mountain</a> — 'King of the Peak Forests.' End with the <a href="javascript:void(0)" onclick="openGallery(4)" class="place-link">Ten Miles Gallery</a>, a gorge walk past towering formations.</div>
+          <div class="day-expand-inner">A breathtaking full day in the <a href="javascript:void(0)" onclick="openGallery(4,0)" class="place-link">Wulingyuan Scenic Area</a>! Ride the <a href="javascript:void(0)" onclick="openGallery(4,1)" class="place-link">Bailong Elevator</a> — the world's tallest outdoor glass elevator at 326 meters. Explore <a href="javascript:void(0)" onclick="openGallery(4,2)" class="place-link">Yuanjiajie</a>, where the floating Hallelujah Mountains from Avatar were filmed. Visit <a href="javascript:void(0)" onclick="openGallery(4,3)" class="place-link">Tianzi Mountain</a> — 'King of the Peak Forests.' End with the <a href="javascript:void(0)" onclick="openGallery(4,5)" class="place-link">Ten Miles Gallery</a>, a gorge walk past towering formations.</div>
         </div>
       </div>
 
@@ -794,7 +795,7 @@ html { scroll-behavior: smooth; }
           <button class="btn-expand" onclick="toggleExpand(5)">Read more</button>
         </div>
         <div class="day-expand" id="expand-5">
-          <div class="day-expand-inner">Visit <a href="javascript:void(0)" onclick="openGallery(5)" class="place-link">Yellow Dragon Cave</a> — one of China's most spectacular caves with massive stalactites, underground rivers, and a boat ride through illuminated caverns. Then walk along <a href="javascript:void(0)" onclick="openGallery(5)" class="place-link">Golden Whip Stream</a> — a gentle 7.5km trail along a crystal-clear stream flanked by towering sandstone pillars. Wild macaque monkeys live here!</div>
+          <div class="day-expand-inner">Visit <a href="javascript:void(0)" onclick="openGallery(5,0)" class="place-link">Yellow Dragon Cave</a> — one of China's most spectacular caves with massive stalactites, underground rivers, and a boat ride through illuminated caverns. Then walk along <a href="javascript:void(0)" onclick="openGallery(5,3)" class="place-link">Golden Whip Stream</a> — a gentle 7.5km trail along a crystal-clear stream flanked by towering sandstone pillars. Wild macaque monkeys live here!</div>
         </div>
       </div>
 
@@ -820,7 +821,7 @@ html { scroll-behavior: smooth; }
           <button class="btn-expand" onclick="toggleExpand(6)">Read more</button>
         </div>
         <div class="day-expand" id="expand-6">
-          <div class="day-expand-inner">Experience the world's highest <a href="javascript:void(0)" onclick="openGallery(6)" class="place-link">Glass Bridge</a>! The Zhangjiajie Grand Canyon Glass Bridge stretches 375 meters, suspended 300 meters above the canyon. Then visit <a href="javascript:void(0)" onclick="openGallery(6)" class="place-link">Baofeng Lake</a> — a serene emerald-green lake surrounded by towering peaks. Take a traditional wooden boat ride through the canyon.</div>
+          <div class="day-expand-inner">Experience the world's highest <a href="javascript:void(0)" onclick="openGallery(6,0)" class="place-link">Glass Bridge</a>! The Zhangjiajie Grand Canyon Glass Bridge stretches 375 meters, suspended 300 meters above the canyon. Then visit <a href="javascript:void(0)" onclick="openGallery(6,3)" class="place-link">Baofeng Lake</a> — a serene emerald-green lake surrounded by towering peaks. Take a traditional wooden boat ride through the canyon.</div>
         </div>
       </div>
 
@@ -847,7 +848,7 @@ html { scroll-behavior: smooth; }
           <button class="btn-expand" onclick="toggleExpand(7)">Read more</button>
         </div>
         <div class="day-expand" id="expand-7">
-          <div class="day-expand-inner">Morning at <a href="javascript:void(0)" onclick="openGallery(7)" class="place-link">Tianmen Mountain</a>! Take the 7,455-meter cable car soaring over the famous <a href="javascript:void(0)" onclick="openGallery(7)" class="place-link">99 Bends Road</a>. At the summit: <a href="javascript:void(0)" onclick="openGallery(7)" class="place-link">Tianmen Cave</a>, the Glass Skywalk, and Ghost Valley Bridge. Then drive to <a href="javascript:void(0)" onclick="openGallery(7)" class="place-link">Fenghuang Ancient Town</a> — one of China's most beautiful ancient towns, over 1,300 years old. Evening boat ride on the Tuojiang River.</div>
+          <div class="day-expand-inner">Morning at <a href="javascript:void(0)" onclick="openGallery(7,0)" class="place-link">Tianmen Mountain</a>! Take the 7,455-meter cable car soaring over the famous <a href="javascript:void(0)" onclick="openGallery(7,1)" class="place-link">99 Bends Road</a>. At the summit: <a href="javascript:void(0)" onclick="openGallery(7,2)" class="place-link">Tianmen Cave</a>, the Glass Skywalk, and Ghost Valley Bridge. Then drive to <a href="javascript:void(0)" onclick="openGallery(7,4)" class="place-link">Fenghuang Ancient Town</a> — one of China's most beautiful ancient towns, over 1,300 years old. Evening boat ride on the Tuojiang River.</div>
         </div>
       </div>
 
@@ -873,7 +874,7 @@ html { scroll-behavior: smooth; }
           <button class="btn-expand" onclick="toggleExpand(8)">Read more</button>
         </div>
         <div class="day-expand" id="expand-8">
-          <div class="day-expand-inner">Free morning to explore <a href="javascript:void(0)" onclick="openGallery(8)" class="place-link">Fenghuang Ancient Town's</a> stone-paved alleys, stilted wooden houses, and the rich Miao minority culture. Then bullet train back to Zhangjiajie and evening flight to <a href="javascript:void(0)" onclick="openGallery(8)" class="place-link">Kunming</a> (19:50–22:00). Welcome to Yunnan — the 'Eternal Spring City.'</div>
+          <div class="day-expand-inner">Free morning to explore <a href="javascript:void(0)" onclick="openGallery(8,0)" class="place-link">Fenghuang Ancient Town's</a> stone-paved alleys, stilted wooden houses, and the rich Miao minority culture. Then bullet train back to Zhangjiajie and evening flight to <a href="javascript:void(0)" onclick="openGallery(8,5)" class="place-link">Kunming</a> (19:50–22:00). Welcome to Yunnan — the 'Eternal Spring City.'</div>
         </div>
       </div>
 
@@ -897,7 +898,7 @@ html { scroll-behavior: smooth; }
           <button class="btn-expand" onclick="toggleExpand(9)">Read more</button>
         </div>
         <div class="day-expand" id="expand-9">
-          <div class="day-expand-inner">A well-deserved rest day in <a href="javascript:void(0)" onclick="openGallery(9)" class="place-link">Kunming</a> — no guide, just explore at your own pace. Recommended: <a href="javascript:void(0)" onclick="openGallery(9)" class="place-link">Green Lake Park</a>, the 'jewel of the city,' with tropical gardens and a peaceful atmosphere. The <a href="javascript:void(0)" onclick="openGallery(9)" class="place-link">Yunnan Military Academy</a> (est. 1909) — one of China's three most famous military academies.</div>
+          <div class="day-expand-inner">A well-deserved rest day in <a href="javascript:void(0)" onclick="openGallery(9,0)" class="place-link">Kunming</a> — no guide, just explore at your own pace. Recommended: <a href="javascript:void(0)" onclick="openGallery(9,2)" class="place-link">Green Lake Park</a>, the 'jewel of the city,' with tropical gardens and a peaceful atmosphere. The <a href="javascript:void(0)" onclick="openGallery(9,4)" class="place-link">Yunnan Military Academy</a> (est. 1909) — one of China's three most famous military academies.</div>
         </div>
       </div>
 
@@ -924,7 +925,7 @@ html { scroll-behavior: smooth; }
           <button class="btn-expand" onclick="toggleExpand(10)">Read more</button>
         </div>
         <div class="day-expand" id="expand-10">
-          <div class="day-expand-inner">Visit the <a href="javascript:void(0)" onclick="openGallery(10)" class="place-link">Stone Forest</a> (Shilin) — a UNESCO World Heritage Site. This 270-million-year-old karst landscape features massive limestone formations that look like a petrified forest. Explore by electric cart. Afternoon bullet train to <a href="javascript:void(0)" onclick="openGallery(10)" class="place-link">Dali</a> (17:00–19:17), nestled between the Cangshan Mountains and Erhai Lake.</div>
+          <div class="day-expand-inner">Visit the <a href="javascript:void(0)" onclick="openGallery(10,0)" class="place-link">Stone Forest</a> (Shilin) — a UNESCO World Heritage Site. This 270-million-year-old karst landscape features massive limestone formations that look like a petrified forest. Explore by electric cart. Afternoon bullet train to <a href="javascript:void(0)" onclick="openGallery(10,5)" class="place-link">Dali</a> (17:00–19:17), nestled between the Cangshan Mountains and Erhai Lake.</div>
         </div>
       </div>
 
@@ -953,7 +954,7 @@ html { scroll-behavior: smooth; }
           <button class="btn-expand" onclick="toggleExpand(11)">Read more</button>
         </div>
         <div class="day-expand" id="expand-11">
-          <div class="day-expand-inner">Visit the <a href="javascript:void(0)" onclick="openGallery(11)" class="place-link">Three Pagodas of Dali</a> — a UNESCO-listed temple complex over 1,000 years old. Drive along the S-shaped bay of <a href="javascript:void(0)" onclick="openGallery(11)" class="place-link">Erhai Lake</a> with stunning mountain-lake panoramas. Explore <a href="javascript:void(0)" onclick="openGallery(11)" class="place-link">Dali Old Town</a> — centuries-old stone alleys, traditional Bai minority architecture, and a relaxed artistic vibe.</div>
+          <div class="day-expand-inner">Visit the <a href="javascript:void(0)" onclick="openGallery(11,0)" class="place-link">Three Pagodas of Dali</a> — a UNESCO-listed temple complex over 1,000 years old. Drive along the S-shaped bay of <a href="javascript:void(0)" onclick="openGallery(11,3)" class="place-link">Erhai Lake</a> with stunning mountain-lake panoramas. Explore <a href="javascript:void(0)" onclick="openGallery(11,5)" class="place-link">Dali Old Town</a> — centuries-old stone alleys, traditional Bai minority architecture, and a relaxed artistic vibe.</div>
         </div>
       </div>
 
@@ -980,7 +981,7 @@ html { scroll-behavior: smooth; }
           <button class="btn-expand" onclick="toggleExpand(12)">Read more</button>
         </div>
         <div class="day-expand" id="expand-12">
-          <div class="day-expand-inner">Visit the '<a href="javascript:void(0)" onclick="openGallery(12)" class="place-link">Santorini of Dali</a>' — a Greek-island-inspired scenic spot with breathtaking views over Erhai Lake. Drive 2.5 hours to <a href="javascript:void(0)" onclick="openGallery(12)" class="place-link">Lijiang</a> — a UNESCO World Heritage old town. Explore the 800-year-old <a href="javascript:void(0)" onclick="openGallery(12)" class="place-link">Naxi culture</a>, winding canals, stone bridges, and vibrant night markets.</div>
+          <div class="day-expand-inner">Visit the '<a href="javascript:void(0)" onclick="openGallery(12,0)" class="place-link">Santorini of Dali</a>' — a Greek-island-inspired scenic spot with breathtaking views over Erhai Lake. Drive 2.5 hours to <a href="javascript:void(0)" onclick="openGallery(12,2)" class="place-link">Lijiang</a> — a UNESCO World Heritage old town. Explore the 800-year-old <a href="javascript:void(0)" onclick="openGallery(12,4)" class="place-link">Naxi culture</a>, winding canals, stone bridges, and vibrant night markets.</div>
         </div>
       </div>
 
@@ -1010,7 +1011,7 @@ html { scroll-behavior: smooth; }
           <button class="btn-expand" onclick="toggleExpand(13)">Read more</button>
         </div>
         <div class="day-expand" id="expand-13">
-          <div class="day-expand-inner">An unforgettable day! Take the glacier cable car to the <a href="javascript:void(0)" onclick="openGallery(13)" class="place-link">Jade Dragon Snow Mountain</a> at 4,506 meters. Ride an electric cart to <a href="javascript:void(0)" onclick="openGallery(13)" class="place-link">Blue Moon Valley</a> — a glacial lake with impossibly turquoise water. Watch '<a href="javascript:void(0)" onclick="openGallery(13)" class="place-link">Impression Lijiang</a>,' a spectacular outdoor show by Zhang Yimou. Visit <a href="javascript:void(0)" onclick="openGallery(13)" class="place-link">Jade Water Village</a> — the 'Holy Land' of Dongba religion.</div>
+          <div class="day-expand-inner">An unforgettable day! Take the glacier cable car to the <a href="javascript:void(0)" onclick="openGallery(13,0)" class="place-link">Jade Dragon Snow Mountain</a> at 4,506 meters. Ride an electric cart to <a href="javascript:void(0)" onclick="openGallery(13,2)" class="place-link">Blue Moon Valley</a> — a glacial lake with impossibly turquoise water. Watch '<a href="javascript:void(0)" onclick="openGallery(13,4)" class="place-link">Impression Lijiang</a>,' a spectacular outdoor show by Zhang Yimou. Visit <a href="javascript:void(0)" onclick="openGallery(13,5)" class="place-link">Jade Water Village</a> — the 'Holy Land' of Dongba religion.</div>
         </div>
       </div>
 
@@ -1037,7 +1038,7 @@ html { scroll-behavior: smooth; }
           <button class="btn-expand" onclick="toggleExpand(14)">Read more</button>
         </div>
         <div class="day-expand" id="expand-14">
-          <div class="day-expand-inner">Visit <a href="javascript:void(0)" onclick="openGallery(14)" class="place-link">Black Dragon Pool Park</a> — a historic garden dating to 1737, built around a crystal-clear spring feeding Lijiang's Old Town. The park offers iconic views of <a href="javascript:void(0)" onclick="openGallery(14)" class="place-link">Jade Dragon Snow Mountain</a> reflected in the pool. Afternoon bullet train back to <a href="javascript:void(0)" onclick="openGallery(14)" class="place-link">Kunming</a> (11:33–16:03), with free time for shopping.</div>
+          <div class="day-expand-inner">Visit <a href="javascript:void(0)" onclick="openGallery(14,0)" class="place-link">Black Dragon Pool Park</a> — a historic garden dating to 1737, built around a crystal-clear spring feeding Lijiang's Old Town. The park offers iconic views of <a href="javascript:void(0)" onclick="openGallery(14,2)" class="place-link">Jade Dragon Snow Mountain</a> reflected in the pool. Afternoon bullet train back to <a href="javascript:void(0)" onclick="openGallery(14,5)" class="place-link">Kunming</a> (11:33–16:03), with free time for shopping.</div>
         </div>
       </div>
 
@@ -1062,7 +1063,7 @@ html { scroll-behavior: smooth; }
           <button class="btn-expand" onclick="toggleExpand(15)">Read more</button>
         </div>
         <div class="day-expand" id="expand-15">
-          <div class="day-expand-inner">Final day! Visit <a href="javascript:void(0)" onclick="openGallery(15)" class="place-link">Western Hills Forest Park</a> (Xishan) — take a cable car to the summit for a panoramic view of <a href="javascript:void(0)" onclick="openGallery(15)" class="place-link">Dianchi Lake</a>, one of China's largest freshwater lakes. The mountain is nicknamed 'Sleeping Beauty Mountain.' Then transfer to <a href="javascript:void(0)" onclick="openGallery(15)" class="place-link">Kunming Airport</a> for the flight home. Goodbye, China!</div>
+          <div class="day-expand-inner">Final day! Visit <a href="javascript:void(0)" onclick="openGallery(15,0)" class="place-link">Western Hills Forest Park</a> (Xishan) — take a cable car to the summit for a panoramic view of <a href="javascript:void(0)" onclick="openGallery(15,2)" class="place-link">Dianchi Lake</a>, one of China's largest freshwater lakes. The mountain is nicknamed 'Sleeping Beauty Mountain.' Then transfer to <a href="javascript:void(0)" onclick="openGallery(15,5)" class="place-link">Kunming Airport</a> for the flight home. Goodbye, China!</div>
         </div>
       </div>
 
@@ -1566,16 +1567,22 @@ const galleryData = {
   }
 };
 
-function openGallery(day) {
+function openGallery(day, focusIdx) {
   const data = galleryData[day];
   if (!data) return;
-  document.getElementById('galleryTitle').textContent = '📸 ' + data.title;
+  document.getElementById('galleryTitle').textContent = data.title;
   const grid = document.getElementById('galleryGrid');
-  grid.innerHTML = data.images.map(url =>
-    '<img src="' + url + '" alt="' + data.title + '" onerror="this.style.display=\'none\'" loading="lazy">'
+  grid.innerHTML = data.images.map((url, i) =>
+    '<img src="' + url + '" alt="' + data.title + '" class="' + (i === focusIdx ? 'gallery-focus' : '') + '" onerror="this.style.display=\'none\'" loading="lazy">'
   ).join('');
   document.getElementById('galleryModal').classList.add('active');
   document.body.style.overflow = 'hidden';
+  if (typeof focusIdx === 'number') {
+    setTimeout(function() {
+      var img = grid.querySelectorAll('img')[focusIdx];
+      if (img) img.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 100);
+  }
 }
 
 function closeGallery() {
