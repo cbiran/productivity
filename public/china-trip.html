@@ -467,6 +467,140 @@ html { scroll-behavior: smooth; }
   .countdown-item .num { font-size: 1.5rem; }
   .stats-grid { gap: 16px; }
 }
+
+/* Expand & Gallery Buttons */
+.day-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+.btn-expand, .btn-gallery {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+}
+.btn-expand {
+  background: #eef2ff;
+  color: #4338ca;
+}
+.btn-expand:hover { background: #c7d2fe; }
+.btn-gallery {
+  background: #fef3c7;
+  color: #92400e;
+}
+.btn-gallery:hover { background: #fde68a; }
+
+/* Expandable English Description */
+.day-expand {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, padding 0.3s ease;
+  direction: ltr;
+  text-align: left;
+}
+.day-expand.open {
+  max-height: 500px;
+  padding-top: 12px;
+}
+.day-expand-inner {
+  background: #f8fafc;
+  border-radius: 10px;
+  padding: 14px 16px;
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: #334155;
+  border-left: 3px solid #6366f1;
+}
+
+/* Gallery Modal */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  z-index: 9999;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+.modal-overlay.active {
+  display: flex;
+}
+.modal-content {
+  background: white;
+  border-radius: 16px;
+  max-width: 900px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  direction: ltr;
+}
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  background: white;
+  border-radius: 16px 16px 0 0;
+  z-index: 1;
+}
+.modal-header h3 {
+  font-size: 1.1rem;
+  color: var(--dark);
+}
+.modal-close {
+  background: #f1f5f9;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+.modal-close:hover { background: #e2e8f0; }
+.modal-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  padding: 16px 20px 20px;
+}
+.modal-grid img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.2s;
+  background: linear-gradient(135deg, #e0e0e0, #f5f5f5);
+}
+.modal-grid img:hover { transform: scale(1.02); }
+.modal-grid img:first-child {
+  grid-column: 1 / -1;
+  height: 300px;
+}
+@media (max-width: 600px) {
+  .modal-grid {
+    grid-template-columns: 1fr;
+  }
+  .modal-grid img { height: 180px; }
+  .modal-grid img:first-child { height: 200px; }
+}
 </style>
 </head>
 <body>
@@ -536,6 +670,13 @@ html { scroll-behavior: smooth; }
           <span class="badge badge-green">👶 מושלם לילדים</span>
           <span class="badge badge-type">🛬 יום הגעה</span>
         </div>
+        <div class="day-actions">
+          <button class="btn-expand" onclick="toggleExpand(1)">Read more</button>
+          <button class="btn-gallery" onclick="openGallery(1)">📸 Photos (5)</button>
+        </div>
+        <div class="day-expand" id="expand-1">
+          <div class="day-expand-inner">Arrive in Shanghai, China's largest and most cosmopolitan city. Transfer to the Disneyland Hotel — a stunning 5-star property right inside the Disney resort. Settle in and take your first glimpse of the magical kingdom. The adventure begins!</div>
+        </div>
       </div>
 
       <!-- Day 2 -->
@@ -555,6 +696,13 @@ html { scroll-behavior: smooth; }
           <span class="badge badge-green">👶 גן עדן לילדים!</span>
           <span class="badge badge-type">🎢 פארק שעשועים</span>
         </div>
+        <div class="day-actions">
+          <button class="btn-expand" onclick="toggleExpand(2)">Read more</button>
+          <button class="btn-gallery" onclick="openGallery(2)">📸 Photos (5)</button>
+        </div>
+        <div class="day-expand" id="expand-2">
+          <div class="day-expand-inner">A full day at Shanghai Disneyland — the largest and most spectacular Disney park in Asia! Experience TRON Lightcycle Power Run, Pirates of the Caribbean: Battle for the Sunken Treasure (widely considered the world's best version), Soaring Over the Horizon, and the Enchanted Storybook Castle — the tallest and most interactive Disney castle ever built. Don't miss the evening fireworks spectacular!</div>
+        </div>
       </div>
 
       <!-- Day 3 -->
@@ -573,6 +721,13 @@ html { scroll-behavior: smooth; }
           <span class="badge badge-yellow">👴 בינוני — יום נסיעות</span>
           <span class="badge badge-yellow">👶 בסדר — טיסה קצרה</span>
           <span class="badge badge-type">🛫 יום מעבר</span>
+        </div>
+        <div class="day-actions">
+          <button class="btn-expand" onclick="toggleExpand(3)">Read more</button>
+          <button class="btn-gallery" onclick="openGallery(3)">📸 Photos (5)</button>
+        </div>
+        <div class="day-expand" id="expand-3">
+          <div class="day-expand-inner">Final morning at Disneyland for any missed rides or shows, then transfer to Shanghai Pudong Airport. Evening flight to Zhangjiajie (19:10–21:40) — you're heading to the real-life Avatar world! Check into a 5-star hotel near the national park.</div>
         </div>
       </div>
 
@@ -597,6 +752,13 @@ html { scroll-behavior: smooth; }
           <span class="badge badge-type">🏞️ טבע</span>
           <span class="badge badge-type">🎬 אווטאר!</span>
         </div>
+        <div class="day-actions">
+          <button class="btn-expand" onclick="toggleExpand(4)">Read more</button>
+          <button class="btn-gallery" onclick="openGallery(4)">📸 Photos (5)</button>
+        </div>
+        <div class="day-expand" id="expand-4">
+          <div class="day-expand-inner">A breathtaking full day in the Wulingyuan Scenic Area! Ride the Bailong Elevator — the world's tallest outdoor glass elevator at 326 meters (66 seconds from valley floor to summit). Explore Yuanjiajie, where the floating Hallelujah Mountains from James Cameron's Avatar were filmed. Visit Tianzi Mountain — "King of the Peak Forests" — with thousands of sandstone pillars rising from the mist. End with the Ten Miles Gallery, a gorge walk past towering formations like a traditional Chinese ink painting.</div>
+        </div>
       </div>
 
       <!-- Day 5 -->
@@ -617,6 +779,13 @@ html { scroll-behavior: smooth; }
           <span class="badge badge-type">🏞️ טבע</span>
           <span class="badge badge-type">🦇 מערה</span>
         </div>
+        <div class="day-actions">
+          <button class="btn-expand" onclick="toggleExpand(5)">Read more</button>
+          <button class="btn-gallery" onclick="openGallery(5)">📸 Photos (5)</button>
+        </div>
+        <div class="day-expand" id="expand-5">
+          <div class="day-expand-inner">Visit Yellow Dragon Cave — one of China's most spectacular caves with massive stalactites, underground rivers, and a boat ride through illuminated caverns. Then walk along Golden Whip Stream — a gentle, flat 7.5km trail along a crystal-clear stream flanked by towering sandstone pillars. Wild macaque monkeys live here and are known to approach visitors looking for snacks! Optional visit to Huangshizhai viewpoint.</div>
+        </div>
       </div>
 
       <!-- Day 6 -->
@@ -636,6 +805,13 @@ html { scroll-behavior: smooth; }
           <span class="badge badge-yellow">👶 בינוני — הגשר עלול להיות מפחיד, האגם מקסים</span>
           <span class="badge badge-type">🌉 הרפתקה</span>
           <span class="badge badge-type">⛵ אגם</span>
+        </div>
+        <div class="day-actions">
+          <button class="btn-expand" onclick="toggleExpand(6)">Read more</button>
+          <button class="btn-gallery" onclick="openGallery(6)">📸 Photos (5)</button>
+        </div>
+        <div class="day-expand" id="expand-6">
+          <div class="day-expand-inner">Experience the world's highest and longest glass-bottomed bridge! The Zhangjiajie Grand Canyon Glass Bridge stretches 375 meters long, suspended 300 meters above the canyon floor, built from 99 transparent glass panels. Not for the faint of heart! Afterwards, visit Baofeng Lake — a serene emerald-green lake surrounded by towering peaks. Take a traditional wooden boat ride through the canyon while listening to Tujia minority folk songs echoing off the cliffs.</div>
         </div>
       </div>
 
@@ -658,6 +834,13 @@ html { scroll-behavior: smooth; }
           <span class="badge badge-type">🚡 רכבל</span>
           <span class="badge badge-type">🏯 תרבות</span>
         </div>
+        <div class="day-actions">
+          <button class="btn-expand" onclick="toggleExpand(7)">Read more</button>
+          <button class="btn-gallery" onclick="openGallery(7)">📸 Photos (5)</button>
+        </div>
+        <div class="day-expand" id="expand-7">
+          <div class="day-expand-inner">Morning at Tianmen Mountain! Take the 7,455-meter cable car (one of the world's longest) soaring over the famous 99 Bends Road. At the summit: Tianmen Cave — a massive natural arch in the mountain, the Glass Skywalk clinging to the cliff face, and the Ghost Valley Bridge. Then drive to Fenghuang Ancient Town — one of China's most beautiful ancient towns, over 1,300 years old. Evening boat ride on the Tuojiang River with stunning night illuminations reflecting on the water.</div>
+        </div>
       </div>
 
       <!-- Day 8 -->
@@ -678,6 +861,13 @@ html { scroll-behavior: smooth; }
           <span class="badge badge-yellow">👶 בסדר — הרבה תחבורה</span>
           <span class="badge badge-type">🛫 יום מעבר</span>
         </div>
+        <div class="day-actions">
+          <button class="btn-expand" onclick="toggleExpand(8)">Read more</button>
+          <button class="btn-gallery" onclick="openGallery(8)">📸 Photos (5)</button>
+        </div>
+        <div class="day-expand" id="expand-8">
+          <div class="day-expand-inner">Free morning to explore Fenghuang Ancient Town's stone-paved alleys, stilted wooden houses hanging over the river, and the rich Miao minority culture. Browse traditional handicrafts and try local street food. Then take a bullet train back to Zhangjiajie and an evening flight to Kunming (19:50–22:00). Welcome to Yunnan — the "Eternal Spring City," where the climate is pleasant year-round thanks to its 1,900m elevation.</div>
+        </div>
       </div>
 
       <!-- Day 9 -->
@@ -696,6 +886,13 @@ html { scroll-behavior: smooth; }
           <span class="badge badge-green">👶 קל — פארק ומשחקים</span>
           <span class="badge badge-type">😴 מנוחה</span>
           <span class="badge badge-type">🎆 סילבסטר!</span>
+        </div>
+        <div class="day-actions">
+          <button class="btn-expand" onclick="toggleExpand(9)">Read more</button>
+          <button class="btn-gallery" onclick="openGallery(9)">📸 Photos (5)</button>
+        </div>
+        <div class="day-expand" id="expand-9">
+          <div class="day-expand-inner">A well-deserved rest day in the center of Kunming — no guide, no vehicle, just explore at your own pace. Recommended: Green Lake Park, the "jewel of the city," with tropical gardens and a peaceful atmosphere. The Yunnan Military Academy (est. 1909) — one of China's three most famous military academies. Ring in the New Year in China! Celebrate New Year's Eve in one of Asia's most underrated cities.</div>
         </div>
       </div>
 
@@ -717,6 +914,13 @@ html { scroll-behavior: smooth; }
           <span class="badge badge-green">👶 מעולה — סלעים מגניבים!</span>
           <span class="badge badge-type">🪨 UNESCO</span>
           <span class="badge badge-type">🏞️ טבע</span>
+        </div>
+        <div class="day-actions">
+          <button class="btn-expand" onclick="toggleExpand(10)">Read more</button>
+          <button class="btn-gallery" onclick="openGallery(10)">📸 Photos (5)</button>
+        </div>
+        <div class="day-expand" id="expand-10">
+          <div class="day-expand-inner">Visit the Stone Forest (Shilin) — a UNESCO World Heritage Site and one of China's most extraordinary natural wonders. This 270-million-year-old karst landscape features massive limestone formations that look like a petrified forest, created when this area was under an ancient sea. Explore by electric cart. Afternoon bullet train to Dali (17:00–19:17), a charming city nestled between the Cangshan Mountains and Erhai Lake.</div>
         </div>
       </div>
 
@@ -741,6 +945,13 @@ html { scroll-behavior: smooth; }
           <span class="badge badge-type">🗼 UNESCO</span>
           <span class="badge badge-type">🏯 תרבות</span>
         </div>
+        <div class="day-actions">
+          <button class="btn-expand" onclick="toggleExpand(11)">Read more</button>
+          <button class="btn-gallery" onclick="openGallery(11)">📸 Photos (5)</button>
+        </div>
+        <div class="day-expand" id="expand-11">
+          <div class="day-expand-inner">Visit the Three Pagodas of Dali — a UNESCO-listed temple complex over 1,000 years old, one of Yunnan's most iconic landmarks. The main pagoda stands 69 meters tall. Drive along the S-shaped bay of Erhai Lake with stunning mountain-lake panoramas and crisp mountain air. Explore Dali Old Town — centuries-old stone alleys, traditional Bai minority architecture, local markets, and a relaxed artistic vibe.</div>
+        </div>
       </div>
 
       <!-- Day 12 -->
@@ -761,6 +972,13 @@ html { scroll-behavior: smooth; }
           <span class="badge badge-green">👶 מעולה — עיר עתיקה קסומה</span>
           <span class="badge badge-type">📸 צילומים</span>
           <span class="badge badge-type">🏯 UNESCO</span>
+        </div>
+        <div class="day-actions">
+          <button class="btn-expand" onclick="toggleExpand(12)">Read more</button>
+          <button class="btn-gallery" onclick="openGallery(12)">📸 Photos (5)</button>
+        </div>
+        <div class="day-expand" id="expand-12">
+          <div class="day-expand-inner">Visit the "Santorini of Dali" — a Greek-island-inspired scenic spot with whitewashed buildings and breathtaking views over Erhai Lake. Drive 2.5 hours through the Yunnan highlands to Lijiang — a UNESCO World Heritage old town and one of the best-preserved ancient cities in China. Explore the 800-year-old Naxi culture, winding canals, stone bridges, and vibrant night markets under the shadow of Jade Dragon Snow Mountain.</div>
         </div>
       </div>
 
@@ -785,6 +1003,13 @@ html { scroll-behavior: smooth; }
           <span class="badge badge-type">🏔️ הרים</span>
           <span class="badge badge-type">🎭 מופע</span>
         </div>
+        <div class="day-actions">
+          <button class="btn-expand" onclick="toggleExpand(13)">Read more</button>
+          <button class="btn-gallery" onclick="openGallery(13)">📸 Photos (5)</button>
+        </div>
+        <div class="day-expand" id="expand-13">
+          <div class="day-expand-inner">An unforgettable day! Take the glacier cable car to 4,506 meters — the highest point of the trip — with jaw-dropping views of the Jade Dragon Snow Mountain glacier. The mountain's 13 peaks stretch 35km like a jade dragon lying in the clouds. Ride an electric cart to Blue Moon Valley — a glacial lake with impossibly turquoise water. Watch "Impression Lijiang," a spectacular outdoor show directed by Zhang Yimou (Beijing Olympics fame) with 500+ performers against the mountain backdrop. Visit Jade Water Village — the "Holy Land" of Dongba religion.</div>
+        </div>
       </div>
 
       <!-- Day 14 -->
@@ -806,6 +1031,13 @@ html { scroll-behavior: smooth; }
           <span class="badge badge-type">🌿 פארק</span>
           <span class="badge badge-type">🛍️ קניות</span>
         </div>
+        <div class="day-actions">
+          <button class="btn-expand" onclick="toggleExpand(14)">Read more</button>
+          <button class="btn-gallery" onclick="openGallery(14)">📸 Photos (5)</button>
+        </div>
+        <div class="day-expand" id="expand-14">
+          <div class="day-expand-inner">Visit Black Dragon Pool Park — a historic garden dating to 1737 (Qing Dynasty), built around a crystal-clear spring that feeds Lijiang's Old Town canal system. The park offers iconic views of Jade Dragon Snow Mountain reflected in the pool — one of China's most photographed scenes. Serene atmosphere with traditional Chinese pavilions. Afternoon bullet train back to Kunming (11:33–16:03), with free time for shopping.</div>
+        </div>
       </div>
 
       <!-- Day 15 -->
@@ -824,6 +1056,13 @@ html { scroll-behavior: smooth; }
           <span class="badge badge-green">👶 טוב — רכבל מרגש</span>
           <span class="badge badge-type">🚡 רכבל</span>
           <span class="badge badge-type">🛫 טיסה הביתה</span>
+        </div>
+        <div class="day-actions">
+          <button class="btn-expand" onclick="toggleExpand(15)">Read more</button>
+          <button class="btn-gallery" onclick="openGallery(15)">📸 Photos (5)</button>
+        </div>
+        <div class="day-expand" id="expand-15">
+          <div class="day-expand-inner">Final day! Visit the Western Hills Forest Park (Xishan) — take a cable car to the summit for a panoramic view of Dianchi Lake, one of China's largest freshwater lakes. The mountain is nicknamed "Sleeping Beauty Mountain" because its silhouette resembles a reclining woman. Pleasant walks and photo opportunities. Then transfer to Kunming Changshui International Airport for the flight home. Goodbye, China!</div>
         </div>
       </div>
 
@@ -1013,6 +1252,17 @@ html { scroll-behavior: smooth; }
   <p style="opacity: 0.6; margin-top: 8px;">23 בדצמבר 2026 — 6 בינואר 2027</p>
 </div>
 
+<!-- Gallery Modal -->
+<div class="modal-overlay" id="galleryModal" onclick="if(event.target===this)closeGallery()">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 id="galleryTitle"></h3>
+      <button class="modal-close" onclick="closeGallery()">&times;</button>
+    </div>
+    <div class="modal-grid" id="galleryGrid"></div>
+  </div>
+</div>
+
 <script>
 // Countdown
 function updateCountdown() {
@@ -1129,6 +1379,189 @@ locations.forEach(loc => {
   });
 
   const marker = L.marker([loc.lat, loc.lng], { icon }).addTo(map);
+// Toggle expand
+function toggleExpand(day) {
+  const el = document.getElementById('expand-' + day);
+  const btn = el.previousElementSibling.querySelector('.btn-expand');
+  el.classList.toggle('open');
+  btn.textContent = el.classList.contains('open') ? 'Close' : 'Read more';
+}
+
+// Gallery data
+const galleryData = {
+  1: {
+    title: 'Day 1 — Shanghai Arrival',
+    images: [
+      'https://images.unsplash.com/photo-1633851548815-207719ed2ed0?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1545893835-abaa50cbe628?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1474181628609-e7b4bdb9f377?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1538428494232-9c0d8a3ab403?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1590144662036-33bf0ebd2c7f?w=800&h=500&fit=crop'
+    ]
+  },
+  2: {
+    title: 'Day 2 — Shanghai Disneyland',
+    images: [
+      'https://images.unsplash.com/photo-1590144662036-33bf0ebd2c7f?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1633851548815-207719ed2ed0?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1597466599360-3b9775841aec?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1613109526778-27605f1f27d2?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1571086803560-fed5c59e0c73?w=800&h=500&fit=crop'
+    ]
+  },
+  3: {
+    title: 'Day 3 — Shanghai to Zhangjiajie',
+    images: [
+      'https://images.unsplash.com/photo-1474181628609-e7b4bdb9f377?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1545893835-abaa50cbe628?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1567266565245-c08dc046815f?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1590144662036-33bf0ebd2c7f?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1538428494232-9c0d8a3ab403?w=800&h=500&fit=crop'
+    ]
+  },
+  4: {
+    title: 'Day 4 — Avatar Mountains & Tianzi',
+    images: [
+      'https://images.unsplash.com/photo-1567266565245-c08dc046815f?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1567266565446-d9c40ccf59a4?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1537531383496-f4749bb86067?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1513415564515-763d91423bdd?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1547981609-4b6bfe67ca0b?w=800&h=500&fit=crop'
+    ]
+  },
+  5: {
+    title: 'Day 5 — Yellow Dragon Cave & Golden Whip Stream',
+    images: [
+      'https://images.unsplash.com/photo-1740521532582-3952c062af42?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1567266565245-c08dc046815f?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1540573133985-87b6da6d54a9?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1547981609-4b6bfe67ca0b?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1513415564515-763d91423bdd?w=800&h=500&fit=crop'
+    ]
+  },
+  6: {
+    title: 'Day 6 — Glass Bridge & Baofeng Lake',
+    images: [
+      'https://images.unsplash.com/photo-1771068355252-157c30af27d8?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1567266565245-c08dc046815f?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1547981609-4b6bfe67ca0b?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1537531383496-f4749bb86067?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1513415564515-763d91423bdd?w=800&h=500&fit=crop'
+    ]
+  },
+  7: {
+    title: 'Day 7 — Tianmen Mountain & Fenghuang',
+    images: [
+      'https://images.unsplash.com/photo-1771068355252-157c30af27d8?w=800&h=500&fit=crop&crop=top',
+      'https://images.unsplash.com/photo-1703739749735-322991b9768b?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1537531383496-f4749bb86067?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1567266565245-c08dc046815f?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1547981609-4b6bfe67ca0b?w=800&h=500&fit=crop'
+    ]
+  },
+  8: {
+    title: 'Day 8 — Fenghuang to Kunming',
+    images: [
+      'https://images.unsplash.com/photo-1703739749735-322991b9768b?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1528164344705-47542687000d?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1517309230475-22bb31b9a5a0?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1537531383496-f4749bb86067?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1547981609-4b6bfe67ca0b?w=800&h=500&fit=crop'
+    ]
+  },
+  9: {
+    title: 'Day 9 — Rest Day in Kunming (NYE!)',
+    images: [
+      'https://images.unsplash.com/photo-1528164344705-47542687000d?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1517309230475-22bb31b9a5a0?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1467810563316-b5476525c0f9?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1514894780887-121968d00567?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1546961342-ea5f71b193f3?w=800&h=500&fit=crop'
+    ]
+  },
+  10: {
+    title: 'Day 10 — Stone Forest & Train to Dali',
+    images: [
+      'https://images.unsplash.com/photo-1711886943210-beca23793689?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1528164344705-47542687000d?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1517309230475-22bb31b9a5a0?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1715468932667-84581433613e?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1784534923289-11208dea29b3?w=800&h=500&fit=crop'
+    ]
+  },
+  11: {
+    title: 'Day 11 — Dali: Three Pagodas & Erhai Lake',
+    images: [
+      'https://images.unsplash.com/photo-1784534923289-11208dea29b3?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1715468932667-84581433613e?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1528164344705-47542687000d?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1517309230475-22bb31b9a5a0?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1677922069750-944be2b9ad20?w=800&h=500&fit=crop'
+    ]
+  },
+  12: {
+    title: 'Day 12 — Dali Santorini & Lijiang Old Town',
+    images: [
+      'https://images.unsplash.com/photo-1677922069750-944be2b9ad20?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1715468932667-84581433613e?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1784534923289-11208dea29b3?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1528164344705-47542687000d?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1637872937209-e1a5ccdc90cc?w=800&h=500&fit=crop'
+    ]
+  },
+  13: {
+    title: 'Day 13 — Jade Dragon Snow Mountain',
+    images: [
+      'https://images.unsplash.com/photo-1677922069769-0164b29e2c1a?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1663609976804-f6a76032fae8?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1637872937209-e1a5ccdc90cc?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1677922069750-944be2b9ad20?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1715468932667-84581433613e?w=800&h=500&fit=crop'
+    ]
+  },
+  14: {
+    title: 'Day 14 — Black Dragon Pool & Train to Kunming',
+    images: [
+      'https://images.unsplash.com/photo-1637872937209-e1a5ccdc90cc?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1677922069769-0164b29e2c1a?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1677922069750-944be2b9ad20?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1528164344705-47542687000d?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1517309230475-22bb31b9a5a0?w=800&h=500&fit=crop'
+    ]
+  },
+  15: {
+    title: 'Day 15 — Western Hills & Departure',
+    images: [
+      'https://images.unsplash.com/photo-1528164344705-47542687000d?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1517309230475-22bb31b9a5a0?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1711886943210-beca23793689?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1546961342-ea5f71b193f3?w=800&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1514894780887-121968d00567?w=800&h=500&fit=crop'
+    ]
+  }
+};
+
+function openGallery(day) {
+  const data = galleryData[day];
+  if (!data) return;
+  document.getElementById('galleryTitle').textContent = data.title;
+  const grid = document.getElementById('galleryGrid');
+  grid.innerHTML = data.images.map(url =>
+    '<img src="' + url + '" alt="' + data.title + '" onerror="this.style.display=\'none\'" loading="lazy">'
+  ).join('');
+  document.getElementById('galleryModal').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeGallery() {
+  document.getElementById('galleryModal').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeGallery();
+});
+
   marker.bindPopup(`
     <div style="min-width: 240px; max-width: 300px;">
       <img class="popup-img" src="${loc.img}" alt="${loc.name}" onerror="this.style.display='none'">
