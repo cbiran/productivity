@@ -410,6 +410,25 @@ body {
 }
 .hotel-item .nights { color: var(--muted); font-size: 0.8rem; }
 
+/* Pricing */
+.pricing-section { background: linear-gradient(135deg, #fef3c7 0%, #fffbeb 50%, #fef3c7 100%); padding-bottom: 50px; }
+.pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 24px; }
+.pricing-card { background: white; border-radius: 14px; padding: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); border-top: 4px solid var(--gold); }
+.pricing-card h3 { font-size: 1.1rem; margin-bottom: 12px; }
+.pricing-card .price-total { font-size: 1.6rem; font-weight: 700; color: var(--red); }
+.pricing-card .price-per-night { font-size: 1rem; color: var(--green); font-weight: 600; margin-top: 4px; }
+.pricing-card .price-detail { font-size: 0.82rem; color: var(--muted); margin-top: 8px; line-height: 1.6; }
+.pricing-card .price-detail li { list-style: none; padding: 2px 0; }
+.pricing-summary { margin-top: 28px; background: white; border-radius: 14px; padding: 24px 28px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); border: 2px solid var(--gold); }
+.pricing-summary h3 { margin-bottom: 12px; }
+.pricing-summary .grand-total { font-size: 2rem; font-weight: 800; color: var(--red); }
+.pricing-summary .grand-per-night { font-size: 1.1rem; color: var(--green); font-weight: 600; }
+.pricing-included { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; font-size: 0.85rem; }
+.pricing-included ul { list-style: none; padding: 0; }
+.pricing-included li { padding: 3px 0; }
+.pricing-note { font-size: 0.8rem; color: var(--muted); margin-top: 16px; text-align: center; }
+.hotel-price { color: var(--green); font-weight: 600; font-size: 0.82rem; }
+
 /* Footer */
 .footer {
   background: var(--dark);
@@ -637,6 +656,7 @@ html { scroll-behavior: smooth; }
   <a href="#suitability">מתאים למי?</a>
   <a href="#practical">מידע מעשי</a>
   <a href="#hotels-sec">מלונות</a>
+  <a href="#pricing-sec">עלויות</a>
   <a href="#barmitzvah">בת מצווה</a>
 </nav>
 
@@ -1194,14 +1214,91 @@ html { scroll-behavior: smooth; }
     <h2 class="section-title">🏨 המלונות שלנו</h2>
     <p class="section-subtitle">כל הלילות במלונות 4-5 כוכבים</p>
     <div class="hotel-list">
-      <div class="hotel-item"><span>🏰 Disney Land Hotel — שנחאי</span><span class="nights">לילות 1-2 (23-25/12)</span></div>
-      <div class="hotel-item"><span>⭐ מלון 5 כוכבים — ג'אנג'יאג'יה</span><span class="nights">לילה 3 (25/12)</span></div>
-      <div class="hotel-item"><span>🏔️ Wulingyuan Hilton 5★ — ג'אנג'יאג'יה</span><span class="nights">לילות 4-7 (26-29/12)</span></div>
-      <div class="hotel-item"><span>🌸 Four Points by Sheraton — קונמינג</span><span class="nights">לילות 8-9 (30-31/12)</span></div>
-      <div class="hotel-item"><span>🏞️ Dali Honglongjing Hotel 5★ — דאלי</span><span class="nights">לילות 10-11 (1-2/1)</span></div>
-      <div class="hotel-item"><span>❄️ Lijiang InterContinental — ליג'יאנג</span><span class="nights">לילות 12-13 (3-4/1)</span></div>
-      <div class="hotel-item"><span>🌸 Four Points by Sheraton — קונמינג</span><span class="nights">לילה 14 (5/1)</span></div>
+      <div class="hotel-item"><span>🏰 Disney Land Hotel — שנחאי</span><span class="nights">לילות 1-2 (19-20/12)</span></div>
+      <div class="hotel-item"><span>🏔️ Wulingyuan Hilton 5★ — ג'אנג'יאג'יה</span><span class="nights">לילות 3-6 (21-24/12)</span></div>
+      <div class="hotel-item"><span>🌙 Wingate by Wyndham — פנגהואנג</span><span class="nights">לילה 7 (25/12)</span></div>
+      <div class="hotel-item"><span>🌸 Four Points by Sheraton — קונמינג</span><span class="nights">לילות 8-9 (26-27/12)</span></div>
+      <div class="hotel-item"><span>🏞️ Dali Honglongjing Hotel 5★ — דאלי</span><span class="nights">לילות 10-11 (28-29/12)</span></div>
+      <div class="hotel-item"><span>❄️ Lijiang InterContinental — ליג'יאנג</span><span class="nights">לילות 12-13 (30-31/12)</span></div>
+      <div class="hotel-item"><span>🌸 Four Points by Sheraton — קונמינג</span><span class="nights">לילה 14 (1/1)</span></div>
     </div>
+  </div>
+</div>
+
+<!-- Pricing Section -->
+<div class="section pricing-section" id="pricing-sec">
+  <div class="container">
+    <h2 class="section-title">💰 עלויות הטיול</h2>
+    <p class="section-subtitle">מחיר ללילה לפי אזור — לקבוצה שלמה (5 מבוגרים + 3 ילדים)</p>
+    <div class="pricing-grid">
+
+      <div class="pricing-card" style="border-top-color: #1d3557;">
+        <h3>🏰 שנחאי (D1-D3)</h3>
+        <div class="price-total">¥39,600</div>
+        <div class="price-per-night">¥19,800 / לילה</div>
+        <ul class="price-detail">
+          <li>📅 2 לילות במלון דיסנילנד</li>
+          <li>👨‍👩‍👧 משפחה א' (3 מבוגרים): ¥17,950 → ¥8,975/לילה</li>
+          <li>👨‍👩‍👧‍👦 משפחה ב' (2 מבוגרים + 3 ילדים): ¥21,650 → ¥10,825/לילה</li>
+          <li>🎢 כולל: מלון, כרטיסי דיסנילנד (×8), העברות</li>
+        </ul>
+      </div>
+
+      <div class="pricing-card" style="border-top-color: #2d6a4f;">
+        <h3>🏔️ ג'אנג'יאג'יה (D3-D8)</h3>
+        <div class="price-total">¥25,201</div>
+        <div class="price-per-night">¥5,040 / לילה</div>
+        <ul class="price-detail">
+          <li>📅 5 לילות (4× Hilton + 1× Fenghuang Wyndham)</li>
+          <li>👨‍👩‍👧 משפחה א' (3 מבוגרים): ¥11,085 → ¥2,217/לילה</li>
+          <li>👨‍👩‍👧‍👦 משפחה ב' (2 מבוגרים + 3 ילדים): ¥14,116 → ¥2,823/לילה</li>
+          <li>🎫 כולל: מלונות, כניסה לאתרים, מדריך, רכב פרטי</li>
+        </ul>
+      </div>
+
+      <div class="pricing-card" style="border-top-color: #e76f51;">
+        <h3>🌸 יונאן (D8-D15)</h3>
+        <div class="price-total">¥31,806</div>
+        <div class="price-per-night">¥4,544 / לילה</div>
+        <ul class="price-detail">
+          <li>📅 7 לילות (Sheraton, Dali, InterContinental)</li>
+          <li>🏨 קונמינג, דאלי, ליג'יאנג</li>
+          <li>🎫 כולל: מלונות, כניסה לאתרים, מדריך, רכב פרטי, ביטוח</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="pricing-summary">
+      <h3>סה"כ כל הטיול</h3>
+      <div class="grand-total">¥96,607</div>
+      <div class="grand-per-night">¥6,900 / לילה (ממוצע) — 14 לילות</div>
+      <div class="pricing-included">
+        <div>
+          <strong>כלול במחיר:</strong>
+          <ul>
+            <li>✅ מלונות 4-5 כוכבים + ארוחת בוקר</li>
+            <li>✅ רכב פרטי 17 מושבים + נהג</li>
+            <li>✅ מדריך דובר אנגלית</li>
+            <li>✅ כרטיסי כניסה לכל האתרים</li>
+            <li>✅ כרטיסי רכבת מחלקה ראשונה</li>
+            <li>✅ ביטוח נסיעות ביונאן</li>
+          </ul>
+        </div>
+        <div>
+          <strong>לא כלול:</strong>
+          <ul>
+            <li>❌ טיסות בינלאומיות</li>
+            <li>❌ טיסות פנימיות</li>
+            <li>❌ ארוחות צהריים/ערב</li>
+            <li>❌ ויזה סינית</li>
+            <li>❌ טיפים (מומלץ: 150 RMB/יום)</li>
+          </ul>
+        </div>
+      </div>
+      <p class="pricing-note">מקור: הצעת מחיר מ-Quotation 15 days Shanghai & Zhangjiajie & Yunnan Tour | המחיר ללילה חושב: סה"כ עלות אזור ÷ מספר לילות באזור | כל המחירים ב-CNY (יואן סיני)</p>
+    </div>
+
   </div>
 </div>
 
